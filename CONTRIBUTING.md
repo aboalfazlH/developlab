@@ -24,7 +24,7 @@ source .\venv\Scripts\activate # ویندوز: .\venv\Scripts\activate
 git checkout -b 'your-branch-name'
 ```
 ---
-> نام برنچ را واضح انتخاب کنید، مثلاً fix-login-bug یا add-user-profile.
+> نام برنچ را واضح و به صورت ترکیبی PascalCase و kebab-case انتخاب کنید، مثلاً Fix-Login-Bug یا Add-User-Profile.
 
 3. کار روی پروژه
 
