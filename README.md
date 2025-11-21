@@ -25,3 +25,6 @@ website with django
 * پایتون 3.9 و بالاتر
 * پیپ (برای نصب پکیج ها)
 * گیت (اختیاری،برای مشارکت و کنترل نسخه)
+
+### نحوه مشارکت
+- [نحوه مشارکت](https://github.com/aboalfazlH/devlab-website/blob/main/CONTRIBUTING.md)
