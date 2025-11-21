@@ -1,0 +1,29 @@
+{% load static %}
+<footer>
+    <ul>
+        <li><a href="{# url '' #}">صفحه اصلی</a></li>
+        <li><a href="{# url '' #}">پرسش و پاسخ</a></li>
+        <li><a href="{# url '' #}">بلاگ</a></li>
+        <li><a href="{# url '' #}">توسعه پروژه</a></li>
+        <li><a href="{# url '' #}">ثبت نام</a></li>
+        <li><a href="{# url '' #}">ورود</a></li>
+        <li><a href="{# url '' #}">{{ user }}</a></li>
+        <li><a href="{# url '' #}">خروج</a></li>
+        <li>
+            <form action="" method="get">
+                <input type="text" placeholder="جستجو">
+                <button type="submit">جستجو</button>
+            </form>
+        </li>
+    </ul>
+    <ul>
+        <li><a class="link-messenger" href="http://ble.ir/developlab">
+                <img class="image-messenger" src="{% static 'images/bale.png' %}" alt="bale icon" height="50" width="50">
+                <p class="text-messenger" style="display: inline;">کانال بله</p>
+            </a></li>
+        <li><a class="link-messenger" href="https://eitaa.com/developlab">
+                <img class="image-messenger" src="{% static 'images/Eitaa.png' %}" alt="eitaa icon" height="50" width="50">
+                <p class="text-messenger" style="display: inline;">کانال ایتا</p>
+            </a></li>
+    </ul>
+</footer>
