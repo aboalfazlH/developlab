@@ -12,12 +12,18 @@ cd devlab-website
 git checkout main
 git pull origin main
 ```
+و سپس الزامات رو انجام بدید
+```bash
+python -m venv venv
+source .\venv\Scripts\activate # ویندوز: .\venv\Scripts\activate
+```
+
 2. یک برنچ برای تغییرات خود بسازید
 ```bash
 git checkout -b 'your-branch-name'
 ```
 ---
->نام برنچ را واضح انتخاب کنید، مثلاً fix-login-bug یا add-user-profile.
+> نام برنچ را واضح انتخاب کنید، مثلاً fix-login-bug یا add-user-profile.
 
 3. کار روی پروژه
 
