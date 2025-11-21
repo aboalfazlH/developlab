@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+لیست مقالات
+{% endblock title %}
+
+{% block meta %}
+<meta name="description" content="لیست مقالات وبسایت با قابلیت صفحه‌بندی">
+{% endblock meta %}
+
+{% block styles %}
+<style>
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .pagination a {
+    margin: 0 5px;
+    text-decoration: none;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+{% for article in articles %}
+  <div class="article">
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.summary }}</p>
+    <a href="{{ article.get_absolute_url }}">ادامه مطلب</a>
+  </div>
+{% empty %}
+  <p>هیچ مقاله‌ای یافت نشد.</p>
+{% endfor %}
+
+{% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">قبلی</a>
+    {% endif %}
+
+    <span>صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">بعدی</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock content %}
