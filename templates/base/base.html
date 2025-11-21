@@ -1,15 +1,22 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="fa-IR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block meta %}{% endblock meta %}
-    
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="manifest" href="{% static 'images/site.webmanifest' %}">
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block styles %}<style></style>{% endblock styles %}
     <title>{% block title %}{% endblock title %}</title>
 </head>
+
 <body>
     {% include 'base/header.html' %}
     <main>{% block content %}{% endblock content %}</main>

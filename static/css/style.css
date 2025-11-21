@@ -1,3 +1,24 @@
+@font-face {
+  font-family: Vazir;
+  src: url(../fonts/Vazir.ttf) format(ttf);
+}
+@font-face {
+  font-family: Vazir;
+  src: url(../fonts/Vazir.ttf) format(ttf);
+}
+@font-face {
+  font-family: Vazir;
+  src: url(../fonts/Vazir.eot) format(eot);
+}
+@font-face {
+  font-family: Vazir;
+  src: url(../fonts/Vazir.woff) format(woff);
+}
+@font-face {
+  font-family: Vazir;
+  src: url(../fonts/Vazir.woff2) format(woff2);
+}
+
 * {
   direction: rtl;
 }
