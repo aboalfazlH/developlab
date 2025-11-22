@@ -59,19 +59,18 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Answer)
-class QuestionAdmin(admin.ModelAdmin):
+class AnswerAdmin(admin.ModelAdmin):
     """Admin View for Answer"""
 
     list_display = (
         "name",
         "is_active",
-        "is_best" "is_pin",
+        "is_best",
         "write_date",
     )
     list_filter = (
         "is_active",
         "is_best",
-        "is_pin",
         "write_date",
     )
     readonly_fields = ("write_date",)
