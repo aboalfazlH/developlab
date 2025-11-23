@@ -1,29 +1,64 @@
 {% load static %}
-<footer>
-    <ul>
-        <li><a href="{# url '' #}">صفحه اصلی</a></li>
-        <li><a href="{# url '' #}">پرسش و پاسخ</a></li>
-        <li><a href="{# url '' #}">بلاگ</a></li>
-        <li><a href="{# url '' #}">توسعه پروژه</a></li>
-        <li><a href="{# url '' #}">ثبت نام</a></li>
-        <li><a href="{# url '' #}">ورود</a></li>
-        <li><a href="{# url '' #}">{{ user }}</a></li>
-        <li><a href="{# url '' #}">خروج</a></li>
-        <li>
-            <form action="" method="get">
-                <input type="text" placeholder="جستجو">
-                <button type="submit">جستجو</button>
-            </form>
-        </li>
-    </ul>
-    <ul>
-        <li><a class="link-messenger" href="http://ble.ir/developlab">
-                <img class="image-messenger" src="{% static 'images/bale.png' %}" alt="bale icon" height="50" width="50">
-                <p class="text-messenger" style="display: inline;">کانال بله</p>
-            </a></li>
-        <li><a class="link-messenger" href="https://eitaa.com/developlab">
-                <img class="image-messenger" src="{% static 'images/Eitaa.png' %}" alt="eitaa icon" height="50" width="50">
-                <p class="text-messenger" style="display: inline;">کانال ایتا</p>
-            </a></li>
-    </ul>
+<footer class="py-5 bg-dark text-light">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">About</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">About</a></li>
+                </ul>
+            </div>
+
+            <div class="col-6 col-md-2 mb-3">
+                <h5>Section</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Home</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Features</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">Pricing</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">FAQs</a></li>
+                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-secondary">About</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-5 offset-md-1 mb-3">
+                <h2>
+                    توسعه میتونه ساده تر از این باشه
+                </h2>
+                <span>
+                    هدف ما اینه به توسعه شما سرعت ببخشیم،از دوره های آموزشی و وبلاگ گرفته تا api و مخزن گیت و هاست.
+                    {% if user.is_authenticated %}
+                    {{ user.get_fullname }} اگر پیشنهادی داری،<a href="#">با ما در میان بگذار</a>
+                    {% else %}
+                    اگه شگفت زده شدی،<a href="{% url 'sign-up' %}">همین الان شروع کن!</a>
+                    {% endif %}
+
+                </span>
+            </div>
+
+        </div>
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top border-secondary">
+            <p class="m-0">&copy; {% now "Y" %} تمام <a href="#">حقوق</a> محفوظ است. </p>
+            <ul class="list-unstyled d-flex">
+                <li class="ms-3"><a class="link-body-emphasis text-light" href="https://eitaa.com/developlab" aria-label="Eitaa"><img height="50" width="50" src="{% static 'images/eitaa.png' %}" alt="Eitaa channel"></a></li>
+                <li class="ms-3"><a class="link-body-emphasis text-light" href="https://ble.ir/developlab" style="position: relative;top: 4.5px;" aria-label="Bale"><img height="40" width="40" src="{% static 'images/bale.png' %}" alt="Bale Channel"></a></li>
+            </ul>
+        </div>
+    </div>
 </footer>
