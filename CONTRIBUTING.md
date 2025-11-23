@@ -1,10 +1,78 @@
 # How to contribute? | چطور مشارکت داشته باشیم؟
-<!-- ## english version -->
-<!-- TODO -->
+
+## English Version
+
+Follow the steps below to contribute:
+
+1. First, fork the repository
+
+```bash
+git clone https://github.com/aboalfalH/devlab-website
+cd devlab-website
+# Optional: to ensure you have the latest version
+git checkout main
+git pull origin main
+```
+
+Then set up the requirements:
+
+```bash
+python -m venv venv
+source ./venv/Scripts/activate   # Windows: .\venv\Scripts\activate
+```
+
+Copy `.env.example` to `.env` and apply your changes.
+
+2. Create a branch for your changes
+
+```bash
+git checkout -b 'your-branch-name'
+```
+
+> Choose a clear branch name using a mix of PascalCase and kebab-case, e.g. `Fix-Login-Bug` or `Add-User-Profile.` 3. Work on the project
+
+```bash
+git add .
+git commit -m "Short description of changes"
+```
+
+4. Push your changes
+
+Push your branch to your fork:
+Apply your changes. Commit them with meaningful messages:
+
+```bash
+git push origin your-branch-name
+```
+
+5. Submit a Pull Request
+
+Go to the main repository.
+
+Select your branch and create a Pull Request.
+
+Explain what you did and why this change is necessary.
+
+There are several main branches that we merge periodically. If your changes belong there, submit your Pull Request accordingly.
+
+6. Important Notes
+
+- Please test your code before submitting a Pull Request.
+
+- Add sufficient comments and documentation.
+
+- Smaller, well-defined changes are easier to review.
+
+---
+
+Thank you for contributing to the project! 💖
 
 ## نسخه فارسی
+
 برای مشارکت مراحل زیر را دنبال کنید
+
 1. ابتدا یک فورک از مخزن بسازید
+
 ```bash
 git clone https://github.com/aboalfalH/devlab-website
 cd devlab-website
@@ -12,52 +80,61 @@ cd devlab-website
 git checkout main
 git pull origin main
 ```
+
 و سپس الزامات رو انجام بدید
+
 ```bash
 python -m venv venv
 source .\venv\Scripts\activate # ویندوز: .\venv\Scripts\activate
 ```
+
 و .`env.example` رو با تغییرات مدنظرتان در `.env` کپی کنید
 
 2. یک برنچ برای تغییرات خود بسازید
+
 ```bash
 git checkout -b 'your-branch-name'
 ```
+
 ---
-> نام برنچ را واضح و به صورت ترکیبی PascalCase و kebab-case انتخاب کنید، مثلاً Fix-Login-Bug یا Add-User-Profile.
+
+> نام برنچ را واضح و به صورت ترکیبی PascalCase و kebab-case انتخاب کنید، مثلاً `Fix-Login-Bug` یا `Add-User-Profile`.
 
 3. کار روی پروژه
 
 تغییرات خود را اعمال کنید.
 
 تغییرات را با پیام‌های معنی‌دار کامیت کنید:
+
 ```bash
 git add .
 git commit -m "توضیح کوتاه درباره تغییرات"
 ```
+
 4. پوش کردن تغییرات
 
 برنچ خود را به ریپوی خودتان پوش کنید:
+
 ```bash
 git push origin your-branch-name
 ```
 
 5. ارسال Pull Request
 
-* به ریپو اصلی بروید.
-* برنچ خود را انتخاب کرده و یک Pull Request بسازید.
+- به ریپو اصلی بروید.
+- برنچ خود را انتخاب کرده و یک Pull Request بسازید.
 
-* توضیح دهید چه کاری انجام داده‌اید و چرا این تغییر لازم است.
-> چند برنچ اصلی وجود که هر چندوقت یک بار آن ها رو مرج میکنیم،اگر تغییری داشتید به آن Pull Request بزنید.
-
+- توضیح دهید چه کاری انجام داده‌اید و چرا این تغییر لازم است.
+  > چند برنچ اصلی وجود که هر چندوقت یک بار آن ها رو مرج میکنیم،اگر تغییری داشتید به آن Pull Request بزنید.
 
 6. نکات مهم
 
-* لطفاً قبل از ارسال Pull Request کد را تست کنید.
+- لطفاً قبل از ارسال Pull Request کد را تست کنید.
 
+- کامنت‌ها و توضیحات کافی اضافه کنید.
 
-* کامنت‌ها و توضیحات کافی اضافه کنید.
+- تغییرات کوچک‌تر و مشخص‌تر بهتر بررسی می‌شوند.
 
-* تغییرات کوچک‌تر و مشخص‌تر بهتر بررسی می‌شوند.
 ---
+
 ممنون که به پروژه کمک می‌کنید! 💖
