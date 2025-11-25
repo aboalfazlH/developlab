@@ -3,9 +3,14 @@ from django.http import JsonResponse
 import faker
 
 
-class FrontFakeObjectsView(View):
-    def get(self, request, count_article=0,count_user=0, *args, **kwargs):
-        data = {"status":200,"users": [],"articles":[],"description":f"create {count_article} article and {count_user} user successfully"}
+class FrontFakeObjectsApi(View):
+    def get(self, request, count_article=0, count_user=0, *args, **kwargs):
+        data = {
+            "status": 200,
+            "users": [],
+            "articles": [],
+            "description": f"create {count_article} article and {count_user} user successfully",
+        }
         fake = faker.Faker("fa-IR")
 
         for _ in range(1, count_user + 1):
@@ -21,7 +26,7 @@ class FrontFakeObjectsView(View):
             for _ in range(1, count_article + 1):
                 data["articles"].append(
                     {
-                        "title":fake.text(),
+                        "title": fake.text(),
                         "description": fake.texts(),
                         "author": f"{fake.first_name()} {fake.last_name()}",
                         "write_date": fake.date_time(),
@@ -31,6 +36,4 @@ class FrontFakeObjectsView(View):
                     }
                 )
 
-
         return JsonResponse(data, safe=False)
-
