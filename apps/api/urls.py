@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import FrontFakeObjectsView
+from .views import FrontFakeObjectsApi
 
 
 app_name = "api"
 urlpatterns = [
-    path("front_json_placeholder/<int:count_article>/<int:count_user>",FrontFakeObjectsView.as_view()),
+    path("front_json_placeholder/<int:count_article>/<int:count_user>",FrontFakeObjectsApi.as_view()),
 ]

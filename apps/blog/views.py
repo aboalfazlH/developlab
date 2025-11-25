@@ -1,10 +1,11 @@
-from django.views.generic import ListView, CreateView,DetailView
+from django.views.generic import ListView, CreateView, DetailView
 from .models import Article
 from .forms import ArticleForm
 from django.http import HttpResponseForbidden
 from django.utils.timezone import now
 from django.urls import reverse_lazy
 from django.contrib import messages
+from apps.accounts.models import CustomUser
 
 
 class ArticleListView(ListView):
@@ -30,7 +31,11 @@ class ArticleCreateView(CreateView):
             author=request.user, write_date__date=today
         )
 
-        if articles_today.count() >= 10:
+        if articles_today.count() >= 10 and not (
+            self.request.user.is_superuser
+            or self.request.user.groups.filter(name="نویسندگان").exists()
+        ):
+
             return HttpResponseForbidden(
                 "شما اجازه نوشتن بیشتر از 10 مقاله در روز را ندارید."
             )
