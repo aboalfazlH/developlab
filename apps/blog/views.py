@@ -1,4 +1,5 @@
 from django.views.generic import (
+    View,
     ListView,
     CreateView,
     DetailView,
@@ -12,7 +13,7 @@ from django.utils.timezone import now
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 
 
 class ArticleListView(ListView):
@@ -122,3 +123,14 @@ class ArticleDeleteView(DeleteView):
             article.soft_delete()
             messages.success(request, "حذف شد")
         return redirect(self.success_url)
+
+class ArticlePinView(LoginRequiredMixin,View):
+    def post(self, request, slug, *args, **kwargs):
+        article = get_object_or_404(Article, slug=slug)
+
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("دسترسی نداری")
+
+        article.is_pin = not article.is_pin
+        article.save()
+        return redirect('blog:article-detail', slug=article.slug)

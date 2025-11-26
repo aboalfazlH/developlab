@@ -46,7 +46,9 @@ class Article(models.Model):
             return "فعال❌"
         else:
             return "غیر فعال"
-
+    @property
+    def most_visited(self):
+        return self.views >= 1000
     write_date = models.DateTimeField(verbose_name="تاریخ نوشتن", auto_now_add=True)
     update_date = models.DateTimeField(verbose_name="تاریخ تغییر", auto_now=True)
     delete_date = models.DateTimeField(verbose_name="تاریخ حذف", blank=True, null=True)
@@ -68,7 +70,6 @@ class Article(models.Model):
         self.save()
 
     def get_absolute_url(self):
-
         return reverse("blog:article-detail", kwargs={"slug": self.slug})
 
     def verify(self):

@@ -52,6 +52,25 @@
 
             <div class="mt-4">
                 <button class="btn btn-outline-success btn-sm" onclick="copyLink()">کپی لینک</button>
+
+                {% if user == article.author or user.is_superuser %}
+                <a class="btn btn-outline-info btn-sm" href="{% url 'blog:article-update' article.slug %}">تغییر
+                    مقاله</a>
+                <a class="btn btn-danger btn-sm" href="{% url 'blog:article-delete' article.slug %}">حذف مقاله</a>
+                {% endif %}
+
+                {% if user.is_superuser %}
+                <form action="{% url 'blog:article-pin' article.slug %}" method="post">
+                    {% csrf_token %}
+                    {% if article.is_pin %}
+                    <button class="btn btn-primary btn-sm" type="submit">برداشتن سنجاق
+                        مقاله</button>
+                    {% else %}
+                    <button class="btn btn-primary btn-sm" type="submit">سنجاق کردن
+                        مقاله</button>
+                    {% endif %}
+                </form>
+                {% endif %}
             </div>
         </div>
 
@@ -68,8 +87,32 @@
 {% block scripts %}
 <script>
     function copyLink() {
-        navigator.clipboard.writeText(window.location.href);
-        alert('لینک کپی شد!');
+        const textToCopy = window.location.href;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => alert('لینک کپی شد!'))
+                .catch(err => {
+                    console.error('خطا در کپی: ', err);
+                    fallbackCopy(textToCopy);
+                });
+        } else {
+            fallbackCopy(textToCopy);
+        }
+    }
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand("copy");
+            alert('لینک کپی شد!');
+        } catch (err) {
+            console.error('کپی نشد: ', err);
+        }
+        document.body.removeChild(textarea);
     }
 </script>
 {% endblock %}

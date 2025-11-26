@@ -83,7 +83,7 @@
   <hr>
   <br>
   {% for article in articles %}
-  <div class="article-card {% if article.is_pin %}pin{% endif %}"
+  <div class="article-card {% if article.is_pin or article.most_visited %}pin{% endif %}"
     onclick="window.location='{{ article.get_absolute_url }}';">
 
     {% if article.thumbnail %}
@@ -98,13 +98,19 @@
 
       <p class="author-box">
         نویسنده:
-        {{ article.author.get_full_name|default:article.author.username }}
+        {{ article.author }}
         <span class="text-muted"> |{{ article.write_date|timesince }} قبل</span>
+        <span class="text-muted"> |{{ article.views }} بازدید</span>
       </p>
 
       {% if article.is_pin %}
       <span class="badge bg-warning text-dark">ویژه</span>
       {% endif %}
+
+      {% if article.most_visited %}
+      <span class="badge bg-danger text-dark">پربازدید</span>
+      {% endif %}
+
     </div>
   </div>
   {% empty %}
