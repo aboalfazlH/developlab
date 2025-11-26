@@ -1,8 +1,6 @@
 {% extends 'base/base.html' %}
 
-{% block title %}
-پروفایل {{ profile.username }}
-{% endblock title %}
+{% block title %}پروفایل {{ profile.username }}{% endblock title %}
 
 {% block meta %}
 <meta name="description" content="پروفایل {{ profile.username }}">
@@ -11,91 +9,143 @@
 {% block styles %}
 <style>
     body {
-        background-color: #f8f9fa; /* پس‌زمینه روشن */
-        color: #212529; /* متن تیره */
+        background-color: #f6f8fa;
+        color: #24292f;
     }
-    .profile-card {
-        max-width: 700px;
-        margin: 40px auto;
-        background-color: #ffffff; /* کارت سفید */
+
+    .profile-container {
+        max-width: 900px;
+        margin: 50px auto;
+        background-color: #fff;
         border-radius: 12px;
+        border: 1px solid #e1e4e8;
         padding: 30px;
-        border: 1px solid #dee2e6;
     }
+
     .profile-avatar {
         width: 150px;
         height: 150px;
-        object-fit: cover;
         border-radius: 50%;
-        border: 3px solid #0d6efd; /* آبی بوت‌استرپ */
-        box-shadow: 0 0 10px rgba(13,110,253,0.2);
+        border: 1px solid #e1e4e8;
+        object-fit: cover;
     }
-    .profile-field {
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .profile-name {
+        font-size: 1.8rem;
         font-weight: 600;
-        margin-top: 15px;
-        color: #0d6efd;
+        margin: 0;
     }
-    .empty-info {
-        font-style: italic;
-        color: #6c757d;
+
+    .profile-username {
+        color: #57606a;
+        font-size: 1rem;
+    }
+
+    .profile-badges span {
+        margin-right: 10px;
+    }
+
+    .profile-section {
+        margin-top: 25px;
+    }
+
+    .profile-section h5 {
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .profile-section p,
+    .profile-section a {
+        margin-bottom: 8px;
+    }
+
+    .profile-tech span {
+        margin: 3px 3px 3px 0;
+    }
+
+    .profile-link {
+        display: inline-block;
+        padding: 4px 8px;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #0366d6;
+        font-size: 0.875rem;
+    }
+
+    .profile-link:hover {
+        background-color: #f6f8fa;
+        border-color: #0366d6;
     }
 </style>
 {% endblock styles %}
 
 {% block content %}
-<div class="profile-card text-center shadow-sm">
-    {% if profile.avatar %}
-        <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar mb-3">
-    {% else %}
-        <div class="profile-avatar bg-secondary mb-3 d-flex align-items-center justify-content-center text-white fs-2">
+<div class="profile-container">
+    <div class="profile-header">
+        {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+        {% else %}
+        <div class="profile-avatar bg-secondary d-flex align-items-center justify-content-center text-white fs-2">
             {{ profile.username|slice:":1"|upper }}
         </div>
-    {% endif %}
+        {% endif %}
 
-    <h2 class="fw-bold">{{ profile.username }}</h2>
+        <div>
+            <h2 class="profile-name">{{ profile.full_name|default:profile.username }}</h2>
+            <p class="profile-username">@{{ profile.username }}</p>
 
-    {% if profile.full_name %}
-        <p class="text-muted">{{ profile.full_name }}</p>
-    {% endif %}
+            {% if profile.followers or profile.following %}
+            <div class="profile-badges">
+                <span class="badge bg-primary">Followers: {{ profile.followers|default:"0" }}</span>
+                <span class="badge bg-secondary">Following: {{ profile.following|default:"0" }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
     {% if profile.about %}
-        <p class="profile-field">درباره کاربر:</p>
+    <div class="profile-section">
+        <h5>درباره کاربر</h5>
         <p>{{ profile.about }}</p>
-    {% else %}
-        <p class="empty-info">هنوز توضیحی اضافه نشده است.</p>
+    </div>
     {% endif %}
 
     {% if profile.bio %}
-        <p class="profile-field">بیوگرافی:</p>
+    <div class="profile-section">
+        <h5>بیوگرافی</h5>
         <p>{{ profile.bio|safe }}</p>
+    </div>
     {% endif %}
 
-    {% if profile.website %}
-        <p class="profile-field">وب‌سایت:</p>
-        <a href="{{ profile.website }}" class="btn btn-outline-primary btn-sm" target="_blank">{{ profile.website }}</a>
-    {% endif %}
-
-    {% if profile.github %}
-        <p class="profile-field">گیت‌هاب:</p>
-        <a href="https://github.com/{{ profile.github }}" class="btn btn-outline-dark btn-sm" target="_blank">
+    <div class="profile-section">
+        {% if profile.website %}
+        <h5>وب‌سایت</h5>
+        <a href="{{ profile.website }}" class="profile-link" target="_blank">{{ profile.website }}</a>
+        {% endif %}
+        {% if profile.github %}
+        <h5>گیت‌هاب</h5>
+        <a href="https://github.com/{{ profile.github }}" class="profile-link" target="_blank">
             github.com/{{ profile.github }}
         </a>
-    {% endif %}
-
-    {% if profile.followers or profile.following %}
-        <div class="mt-3">
-            <span class="badge bg-primary me-2">دنبال‌کننده‌ها: {{ profile.followers }}</span>
-            <span class="badge bg-secondary">دنبال‌شده‌ها: {{ profile.following }}</span>
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 
     {% if profile.tech_stack %}
-        <p class="profile-field">تکنولوژی‌ها:</p>
-        <div>
-            {% for tech in profile.tech_stack %}
-                <span class="badge bg-light text-dark border me-1">{{ tech }}</span>
-            {% endfor %}
-        </div>
+    <div class="profile-section profile-tech">
+        <h5>تکنولوژی‌ها</h5>
+        {% for tech in profile.tech_stack %}
+        <span class="badge bg-light text-dark border">{{ tech }}</span>
+        {% endfor %}
+    </div>
     {% endif %}
 </div>
 {% endblock content %}

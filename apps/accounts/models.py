@@ -23,19 +23,9 @@ class CustomUser(AbstractUser):
         verbose_name="شماره تلفن", max_length=15, blank=True, null=True
     )
 
-    def save(
-        self,
-        force_insert=...,
-        force_update=...,
-        using=...,
-        update_fields=...,
-        *args,
-        **kwargs,
-    ):
-        if self.slug is None:
-            self.slug = slugify(self.username)
-        super().save(*args, **kwargs)
-
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('users-profile', kwargs={'username': self.username})
     def __str__(self):
         return (
             f"{self.username}" if self.get_full_name() is None else self.get_full_name()
