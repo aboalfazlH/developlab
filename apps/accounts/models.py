@@ -22,7 +22,6 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(
         verbose_name="شماره تلفن", max_length=15, blank=True, null=True
     )
-    slug = models.SlugField(verbose_name="شناسه کاربری", unique=False)
 
     def save(
         self,

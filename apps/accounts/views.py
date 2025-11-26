@@ -1,7 +1,7 @@
 from .forms import CustomUserCreationForm, LoginForm
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, DetailView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect,render,get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from .models import CustomUser
 from django.contrib import messages
@@ -26,7 +26,7 @@ class LoginView(FormView):
         user = authenticate(self.request, username=username, password=password)
 
         if user is not None:
-            messages.success(self.request, "خوش آمدید")
+            messages.success(self.request, f"خوش آمدید {self.request.user}")
             login(self.request, user)
             return super().form_valid(form)
 
@@ -49,3 +49,16 @@ class CustomLogoutView(LoginRequiredMixin,FormView):
         logout(request)
         messages.success(request,"با موفقیت خارج شدید")
         return redirect(self.success_url)
+
+
+
+class CustomUserDetailView(DetailView):
+    model = CustomUser
+    template_name = "profile.html"
+    context_object_name = "profile"
+    slug_field = "username"
+    slug_url_kwarg = "username"
+
+    def get_object(self, queryset=None):
+        username = self.kwargs.get(self.slug_url_kwarg)
+        return get_object_or_404(CustomUser, username__iexact=username)
