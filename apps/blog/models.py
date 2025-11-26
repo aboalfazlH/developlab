@@ -22,6 +22,7 @@ class Article(models.Model):
         blank=True,
         null=True,
     )
+    views = models.PositiveIntegerField(default=0,verbose_name="بازدید")
     short_description = models.CharField(max_length=110, verbose_name="توضیحات کوتاه")
     description = models.TextField(verbose_name="توضیحات", blank=True, null=True)
     is_active = models.BooleanField(verbose_name="فعال", default=True)

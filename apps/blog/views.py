@@ -84,6 +84,15 @@ class ArticleDetailView(DetailView):
     slug_url_kwarg = "slug"
     context_object_name = "article"
 
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        session_key = f"viewed_article_{obj.id}"
+        if not self.request.session.get(session_key, False):
+            obj.views += 1
+            obj.save(update_fields=["views"])
+            self.request.session[session_key] = True
+        return obj
+
 
 class ArticleDeleteView(DeleteView):
     model = Article
