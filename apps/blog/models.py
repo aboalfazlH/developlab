@@ -4,7 +4,18 @@ from django.utils import timezone
 from apps.accounts.models import CustomUser
 from django.template.defaultfilters import slugify
 from unidecode import unidecode
+from apps.core.models import BaseCategory, BaseComment
 import re
+
+
+class ArticleCategory(BaseCategory):
+    """Article Category model"""
+
+    slug = models.SlugField(verbose_name="شناسه")
+
+    class Meta:
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
 
 
 class Article(models.Model):
@@ -22,7 +33,7 @@ class Article(models.Model):
         blank=True,
         null=True,
     )
-    views = models.PositiveIntegerField(default=0,verbose_name="بازدید")
+    views = models.PositiveIntegerField(default=0, verbose_name="بازدید")
     short_description = models.CharField(max_length=110, verbose_name="توضیحات کوتاه")
     description = models.TextField(verbose_name="توضیحات", blank=True, null=True)
     is_active = models.BooleanField(verbose_name="فعال", default=True)
@@ -46,15 +57,18 @@ class Article(models.Model):
             return "فعال❌"
         else:
             return "غیر فعال"
+
     @property
     def most_visited(self):
         return self.views >= 1000
+
     write_date = models.DateTimeField(verbose_name="تاریخ نوشتن", auto_now_add=True)
     update_date = models.DateTimeField(verbose_name="تاریخ تغییر", auto_now=True)
     delete_date = models.DateTimeField(verbose_name="تاریخ حذف", blank=True, null=True)
     verify_date = models.DateTimeField(
         verbose_name="تاریخ تائید", blank=True, null=True
     )
+    categories = models.ManyToManyField(ArticleCategory)
 
     class Meta:
         """Meta definition for Article."""

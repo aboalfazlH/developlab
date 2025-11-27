@@ -12,19 +12,18 @@ class BaseCategory(models.Model):
     class Meta:
         """Meta definition for Category."""
 
-        verbose_name = "Category"
-        verbose_name_plural = "Categorys"
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
 
     def __str__(self):
         """Unicode representation of Category."""
-        pass
+        return f"{self.name}"
 
 
 class BaseComment(models.Model):
     """Model definition for Comment."""
-
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="کاربر")
-    content = models.TextField(verbose_name="محتوا")
+    content = models.TextField(blank=True,null=True,verbose_name="محتوا")
 
     class Meta:
         """Meta definition for Comment."""
