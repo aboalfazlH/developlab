@@ -76,17 +76,45 @@
     <h5>لینک های {{ profile }}</h5>
     {% if profile.has_link %}
     <section class="profile-section">
+
         {% if profile.git_account %}
-        <a href="{{ profile.git_account }}">
-            {% if 'github' in profile.git_account %}گیت هاب
-            {% elif 'gitlab' in profile.git_account %}گیت لب
+        <h6>گیت‌هاب / گیت‌لب</h6>
+        <a href="{{ profile.git_account }}" class="profile-link" target="_blank">
+            {% if 'github' in profile.git_account %}
+            GitHub
+            {% elif 'gitlab' in profile.git_account %}
+            GitLab
+            {% else %}
+            Git Account
             {% endif %}
         </a>
+        {% endif %}
+
         {% if profile.website %}
-        <h5>وب‌سایت</h5>
-        <a href="{{ profile.website }}" class="profile-link">{{ profile.website }}</a>
+        <h6>وب‌سایت</h6>
+        <a href="{{ profile.website }}" class="profile-link" target="_blank">{{ profile.website }}</a>
         {% endif %}
+
+        {% if profile.instagram %}
+        <h6>اینستاگرام</h6>
+        <a href="{{ profile.instagram }}" class="profile-link" target="_blank">{{ profile.instagram }}</a>
         {% endif %}
+
+        {% if profile.facebook %}
+        <h6>فیسبوک</h6>
+        <a href="{{ profile.facebook }}" class="profile-link" target="_blank">{{ profile.facebook }}</a>
+        {% endif %}
+
+        {% if profile.linkedin %}
+        <h6>لینکدین</h6>
+        <a href="{{ profile.linkedin }}" class="profile-link" target="_blank">{{ profile.linkedin }}</a>
+        {% endif %}
+
+        {% if profile.telegram %}
+        <h6>تلگرام</h6>
+        <a href="{{ profile.telegram }}" class="profile-link" target="_blank">{{ profile.telegram }}</a>
+        {% endif %}
+
     </section>
     {% else %}
     <p>لینکی از {{ profile }} در دسترس نیست</p>

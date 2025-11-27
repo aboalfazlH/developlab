@@ -19,6 +19,25 @@ class CustomUser(AbstractUser):
         if not re.match(pattern, value):
             raise ValidationError("لینک باید فقط از github.com یا gitlab.com باشد.")
 
+    def validate_facebook_link(value):
+        pattern = r'^https?:\/\/(www\.)?facebook\.com\/[A-Za-z0-9_.-]+\/?$'
+        if not re.match(pattern, value):
+            raise ValidationError("فقط لینک معتبر Facebook وارد کنید.")
+
+    def validate_instagram_link(value):
+        pattern = r'^https?:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.-]+\/?$'
+        if not re.match(pattern, value):
+            raise ValidationError("فقط لینک معتبر Instagram وارد کنید.")
+    def validate_linkedin_link(value):
+        pattern = r'^https?:\/\/(www\.)?linkedin\.com\/(in|company)\/[A-Za-z0-9_.-]+\/?$'
+        if not re.match(pattern, value):
+            raise ValidationError("فقط لینک معتبر LinkedIn وارد کنید.")
+    def validate_telegram_link(value):
+        pattern = r'^https?:\/\/(t\.me)\/[A-Za-z0-9_]{5,32}$'
+        if not re.match(pattern, value):
+            raise ValidationError("فقط لینک معتبر Telegram وارد کنید. مثال: https://t.me/username")
+
+
     email = models.EmailField(unique=True, verbose_name=_("email"))
     avatar = models.ImageField(
         verbose_name=_("avatar"), upload_to=avatar_upload_path, blank=True, null=True
@@ -36,6 +55,12 @@ class CustomUser(AbstractUser):
         blank=True,
         null=True,
     )
+    website = models.URLField(verbose_name="سایت کاربر",blank=True,null=True)
+    facebook = models.URLField(verbose_name="فیس بوک",blank=True,null=True,validators=[validate_facebook_link])
+    instagram = models.URLField(verbose_name="اینستاگرام",blank=True,null=True,validators=[validate_instagram_link])
+    linkedin = models.URLField(verbose_name="لینکدین",blank=True,null=True,validators=[validate_linkedin_link])
+    telegram = models.URLField(verbose_name="تلگرام",blank=True,null=True,validators=[validate_telegram_link])
+
 
     @property
     def has_link(self):
