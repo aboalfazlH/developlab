@@ -5,7 +5,7 @@ from apps.accounts.models import CustomUser
 class BaseCategory(models.Model):
     """Model definition for Category."""
 
-    name = models.CharField("نام برچسب")
+    name = models.CharField("نام برچسب",max_length=110)
     description = models.TextField("توضیح برچسب",blank=True,null=True)
     
 
