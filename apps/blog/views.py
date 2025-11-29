@@ -180,3 +180,15 @@ class ArticleFilterWithCategory(ListView):
             article_count=Count("articles",filter=Q(articles__is_active=True))
         ).order_by("-article_count")
         return context
+
+
+class CommentDetailView(DetailView):
+    model = ArticleComment
+    template_name = "comment_detail.html"
+    context_object_name = "comment"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from apps.blog.models import Article
+        context["article"] = Article.objects.get(slug=self.kwargs["slug"])
+        return context
