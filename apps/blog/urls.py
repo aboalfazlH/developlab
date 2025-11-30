@@ -1,10 +1,10 @@
 from django.urls import path
 from . import views
 
+
 app_name = "blog"
 
 urlpatterns = [
-
     path("article/", views.ArticleDetailView.as_view(), name="articles"),
     path("article/filter/<slug:category>/", views.ArticleFilterWithCategory.as_view(), name="article-list-category"),
     path("article/write/", views.ArticleCreateView.as_view(), name="write-article"),

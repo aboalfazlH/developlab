@@ -1,19 +1,27 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.utils.timezone import now
-from django.http import HttpResponseForbidden
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Q
-from django.http import JsonResponse
+
+from django.views import View
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Article, ArticleCategory, ArticleComment
 from .forms import ArticleForm
 
 
 class ArticleListView(ListView):
+    """Articles list"""
+
     model = Article
     template_name = "articles.html"
     context_object_name = "articles"
@@ -24,6 +32,7 @@ class ArticleListView(ListView):
         return Article.objects.filter(is_active=True).order_by("-is_pin", "-write_date")
 
     def get_context_data(self, **kwargs):
+        """query on articles and categories"""
         context = super().get_context_data(**kwargs)
         context["categories"] = ArticleCategory.objects.annotate(
             article_count=Count("articles", filter=Q(articles__is_active=True))
@@ -38,6 +47,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("blog:articles")
 
     def dispatch(self, request, *args, **kwargs):
+        # User only write 10 article
+        
         today = now().date()
         articles_today = Article.objects.filter(
             author=request.user, write_date__date=today
@@ -54,7 +65,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
+    # TODO: if user has subscribe can write 50 article and 1 article in day pin
+    
 
 class ArticleUpdateView(UpdateView):
     model = Article
@@ -67,7 +79,7 @@ class ArticleUpdateView(UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
-        if obj.author != request.user:
+        if obj.author != request.user and not request.user.is_superuser:
             messages.error(request, "شما اجازه تغییر این مقاله را ندارید.")
             return redirect(self.success_url)
         return super().dispatch(request, *args, **kwargs)
@@ -85,6 +97,7 @@ class ArticleDetailView(DetailView):
     slug_url_kwarg = "slug"
 
     def get_object(self, queryset=None):
+        """add to article views"""
         obj = super().get_object(queryset)
         session_key = f"viewed_article_{obj.id}"
         if not self.request.session.get(session_key, False):
@@ -136,6 +149,7 @@ class ArticlePinView(LoginRequiredMixin, View):
 
 
 class ArticleFilterWithCategory(ListView):
+    """Filter articles with category"""
     model = Article
     template_name = "articles.html"
     context_object_name = "articles"
@@ -148,7 +162,9 @@ class ArticleFilterWithCategory(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category"] = get_object_or_404(ArticleCategory, slug=self.kwargs.get("category"))
+        context["category"] = get_object_or_404(
+            ArticleCategory, slug=self.kwargs.get("category")
+        )
         context["categories"] = ArticleCategory.objects.annotate(
             article_count=Count("articles", filter=Q(articles__is_active=True))
         ).order_by("-article_count")
@@ -156,10 +172,11 @@ class ArticleFilterWithCategory(ListView):
 
 
 class CategoryAutocomplete(View):
+    """Create select2  autocomplete"""
     def get(self, request, *args, **kwargs):
         query = request.GET.get("q", "")
-        qs = ArticleCategory.objects.filter(name__icontains=query)[:10]
-        results = [{"id": c.id, "text": c.name} for c in qs]
+        queryset = ArticleCategory.objects.filter(name__icontains=query)[:10]
+        results = [{"id": category.id, "text":category .name} for category in queryset]
         return JsonResponse({"results": results})
 
 
@@ -171,10 +188,7 @@ class CommentDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comment"] = get_object_or_404(
-            ArticleComment,
-            id=self.kwargs["pk"],
-            comment__isnull=True,
-            is_active=True
+            ArticleComment, id=self.kwargs["pk"], comment__isnull=True, is_active=True
         )
         context["article"] = get_object_or_404(Article, slug=self.kwargs["slug"])
         return context
