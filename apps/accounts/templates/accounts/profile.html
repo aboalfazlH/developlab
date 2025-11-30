@@ -26,6 +26,12 @@
         <div>
             <h2 class="profile-name">{{ profile.full_name|default:profile.username }}</h2>
             <p class="profile-username">@{{ profile.username }}</p>
+            {% if profile.public_email %}
+            <p class="profile-email">{{ profile.public_email }}</p>
+            {% endif %}
+            {% if profile.public_phone_number %}
+            <p class="profile-phone-number">{{ profile.public_phone_number }}</p>
+            {% endif %}
 
             {% if profile.followers or profile.following %}
             <div class="profile-badges">
