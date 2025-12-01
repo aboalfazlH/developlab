@@ -7,7 +7,8 @@ A website with features for developers, including Q&A, blog, Git repository, col
 🔃: In Progress; ✅: Completed; ❌: Cancelled  
 * Blog ✅  
 * User System ✅  
-* Login and Registration with Google, Microsoft, GitHub, etc. 🔃  
+* Login and Registration with Google, Microsoft, GitHub, etc. ✅ 
+> current only github
 * Q&A 🔃  
 * Git Repository Creation 🔃  
 * Collaboration System and User Projects 🔃  
@@ -35,7 +36,8 @@ A website with features for developers, including Q&A, blog, Git repository, col
 🔃:در حال انجام؛✅:انجام شده؛❌:لغو شده
 * وبلاگ ✅
 * سیستم یوزر ✅
-* قابلیت ورود و ثبت نام با گوگل،مایکروسافت،گیتهاب و ... 🔃
+* قابلیت ورود و ثبت نام با گوگل،مایکروسافت،گیتهاب و ... ✅
+> فعلا فقط گیت هاب
 * پرسش و پاسخ 🔃
 * ساخت مخزن گیت🔃
 * سیستم مشارکت و پروژه کاربران🔃
