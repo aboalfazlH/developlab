@@ -1,11 +1,12 @@
 from django.contrib import admin
-from .models import Article
+from .models import Article, ArticleCategory,ArticleComment
+from django_summernote.admin import SummernoteModelAdmin
 
 
 @admin.register(Article)
-class ArticleAdmin(admin.ModelAdmin):
+class ArticleAdmin(SummernoteModelAdmin):
+    summernote_fields = "description"
     """Admin View for Article"""
-
     list_display = (
         "title",
         "is_active",
@@ -27,6 +28,7 @@ class ArticleAdmin(admin.ModelAdmin):
         "delete_date",
         "verify_date",
     )
+    autocomplete_fields = ("author","categories",)
     readonly_fields = (
         "write_date",
         "update_date",
@@ -40,13 +42,20 @@ class ArticleAdmin(admin.ModelAdmin):
     )
     date_hierarchy = "write_date"
     ordering = ("-write_date", "is_active")
-
+    list_per_page = 20
     fieldsets = (
         (
             "اطلاعات اصلی",
             {
                 "classes": ("wide",),
-                "fields": ("title", "short_description", "description", "thumbnail","slug"),
+                "fields": (
+                    "title",
+                    "short_description",
+                    "description",
+                    "thumbnail",
+                    "slug",
+                    "author",
+                ),
             },
         ),
         (
@@ -57,6 +66,7 @@ class ArticleAdmin(admin.ModelAdmin):
                     "is_active",
                     "is_verify",
                     "is_pin",
+                    "categories",
                 ),
             },
         ),
@@ -73,3 +83,13 @@ class ArticleAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+
+@admin.register(ArticleCategory)
+class ArticleCategoryAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("name", "description")
+@admin.register(ArticleComment)
+class ArticleCommentAdmin(admin.ModelAdmin):
+    list_display = ("id",)
+    search_fields = ("id",)

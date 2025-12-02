@@ -1,14 +1,13 @@
 # developlab-website | وبسایت آزمایشگاه توسعه
 
-## english version
 ## English Version
 A website with features for developers, including Q&A, blog, Git repository, collaboration between developers, and more.
 
 ### Feature List
 🔃: In Progress; ✅: Completed; ❌: Cancelled  
-* Blog 🔃  
-* User System 🔃  
-* Login and Registration with Google, Microsoft, GitHub, etc. 🔃  
+* Blog ✅  
+* User System ✅  
+* Login and Registration with GitHub ✅ 
 * Q&A 🔃  
 * Git Repository Creation 🔃  
 * Collaboration System and User Projects 🔃  
@@ -34,18 +33,18 @@ A website with features for developers, including Q&A, blog, Git repository, col
 
 ### لیست قابلیت ها
 🔃:در حال انجام؛✅:انجام شده؛❌:لغو شده
-* وبلاگ 🔃
-* سیستم یوزر 🔃
-* قابلیت ورود و ثبت نام با گوگل،مایکروسافت،گیتهاب و ... 🔃
+* وبلاگ ✅
+* سیستم کاربر ✅
+* قابلیت ورود و ثبت نام با گیت هاب✅
 * پرسش و پاسخ 🔃
 * ساخت مخزن گیت🔃
 * سیستم مشارکت و پروژه کاربران🔃
 * ساخت api🔃
 
 ### ابزار های استفاده شده
-![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05033?style=for-the-badge&logo=git&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)  
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)  
+![Git](https://img.shields.io/badge/Git-F05033?style=for-the-badge&logo=git&logoColor=white)  
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)  
 ### ابزار های مورد نیاز
 * پایتون 3.9 و بالاتر

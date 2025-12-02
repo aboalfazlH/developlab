@@ -1,0 +1,155 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}پروفایل {{ profile.username }}{% endblock title %}
+
+{% block meta %}
+<meta name="description" content="پروفایل {{ profile }}">
+{% endblock meta %}
+
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+<div class="profile-container">
+
+    <!-- Header -->
+    <div class="profile-header">
+        {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" class="profile-avatar">
+        {% else %}
+        <div class="profile-avatar bg-secondary d-flex align-items-center justify-content-center text-white fs-2">
+            {{ profile.username|slice:":1"|upper }}
+        </div>
+        {% endif %}
+
+        <div>
+            <h2 class="profile-name">{{ profile.full_name|default:profile.username }}</h2>
+            <p class="profile-username">@{{ profile.username }}</p>
+            {% if profile.public_email %}
+            <p class="profile-email">{{ profile.public_email }}</p>
+            {% endif %}
+            {% if profile.public_phone_number %}
+            <p class="profile-phone-number">{{ profile.public_phone_number }}</p>
+            {% endif %}
+            <!-- TODO: Followers -->
+            {% if profile.followers or profile.following %}
+            <div class="profile-badges">
+                <span class="badge bg-primary">دنبال کنندگان: {{ profile.followers|default:"0" }}</span>
+                <span class="badge bg-secondary">دنبال شوندگان: {{ profile.following|default:"0" }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- About -->
+    <h5>درباره {{ profile }}</h5>
+    {% if profile.about %}
+    <section class="profile-section">
+        <p>{{ profile.about }}</p>
+    </section>
+    {% else %}
+    <section class="profile-section">
+        <p>{{ profile }} چیزی درباره خود ننوشته</p>
+    </section>
+    {% endif %}
+
+    <!-- Bio -->
+    <h5>بیوگرافی {{ profile }}</h5>
+    {% if profile.bio %}
+    <section class="profile-section">
+        <p>{{ profile.bio|safe }}</p>
+    </section>
+    {% else %}
+    <p>{{ profile }} چیزی در مورد خود ننوشته</p>
+    {% endif %}
+
+    <!-- Articles -->
+    <h5>مقالات {{ profile }}</h5>
+    <section class="profile-section">
+        {% if articles %}
+        {% for article in articles %}
+        <article>
+            <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        </article>
+        {% endfor %}
+        {% else %}
+        <p>این {{ profile }} هنوز مقاله‌ای منتشر نکرده است.</p>
+        {% endif %}
+    </section>
+
+    <!-- Links -->
+    <h5>لینک های {{ profile }}</h5>
+    {% if profile.has_link %}
+    <section class="profile-section">
+
+        {% if profile.git_account %}
+        <h6>گیت‌هاب / گیت‌لب</h6>
+        <a href="{{ profile.git_account }}" class="profile-link">
+            {% if 'github' in profile.git_account %}
+            گیت‌هاب
+            {% elif 'gitlab' in profile.git_account %}
+            گیت لب
+            {% else %}
+            حساب گیت
+            {% endif %}
+        </a>
+        {% endif %}
+
+        {% if profile.website %}
+        <h6>وب‌سایت</h6>
+        <a href="{{ profile.website }}" class="profile-link" target="_blank">{{ profile.website }}</a>
+        {% endif %}
+
+        {% if profile.instagram %}
+        <h6>اینستاگرام</h6>
+        <a href="{{ profile.instagram }}" class="profile-link" target="_blank">{{ profile.instagram }}</a>
+        {% endif %}
+
+        {% if profile.facebook %}
+        <h6>فیسبوک</h6>
+        <a href="{{ profile.facebook }}" class="profile-link" target="_blank">{{ profile.facebook }}</a>
+        {% endif %}
+
+        {% if profile.linkedin %}
+        <h6>لینکدین</h6>
+        <a href="{{ profile.linkedin }}" class="profile-link" target="_blank">{{ profile.linkedin }}</a>
+        {% endif %}
+
+        {% if profile.telegram %}
+        <h6>تلگرام</h6>
+        <a href="{{ profile.telegram }}" class="profile-link" target="_blank">{{ profile.telegram }}</a>
+        {% endif %}
+
+        {% for link in links %}
+        <h6>{{ link.link_name }}</h6>
+        <a href="{{ link.link_url }}" class="profile-link" target="_blank">{{ link.link_url }}</a>
+        {% endfor %}
+
+    </section>
+    {% else %}
+    <p>لینکی از {{ profile }} در دسترس نیست</p>
+    {% endif %}
+
+    <!-- TODO : Tech Stack -->
+    <section class="profile-section profile-tech">
+        <h5>تکنولوژی‌ها</h5>
+        {% if profile.tech_stack %}
+        {% for tech in profile.tech_stack %}
+        <span class="badge bg-light text-dark border">{{ tech }}</span>
+        {% endfor %}
+        {% else %}
+        <p>هنوز تکنولوژی‌ای اضافه نشده است.</p>
+        {% endif %}
+    </section>
+
+    <!-- Actions -->
+    {% if profile == user or user.is_superuser %}
+    <div class="mt-3">
+        <a class="btn btn-warning" href="{% url 'password_change' %}">تغییر رمز</a>
+        <a class="btn btn-primary" href="{% url 'users-profile-edit' %}">تغییر پروفایل</a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock content %}

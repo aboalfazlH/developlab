@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import LinkModel
 
-# Register your models here.
+
+@admin.register(LinkModel)
+class LinkModelAdmin(admin.ModelAdmin):
+    """Admin View for LinkModel"""
+
+    list_display = ("name",)
