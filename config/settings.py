@@ -28,6 +28,7 @@ THIRD_PARTY_APPS = [
     "django_summernote",
     "django_select2",
     "social_django",
+    'rest_framework',
 ]
 LOCAL_APPS = [
     "apps.accounts",
