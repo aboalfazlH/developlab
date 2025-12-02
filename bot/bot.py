@@ -24,7 +24,7 @@ async def automation(*,message):
     response = requests.post(url, json=data)
 
     # eitaa
-    url = f"https://eitaayar.ir/api/bot414069:7043fd6f-aa90-4e27-b8f4-6e73a3563411/sendMessage?chat_id={eitaa_channel}&text={text}&date=0&pin=off"
+    url = f"https://eitaayar.ir/api/{eitaa_token}/sendMessage?chat_id={eitaa_channel}&text={text}&date=0&pin=off"
 
     response = requests.get(url)
 
