@@ -144,6 +144,11 @@ class ArticlePinView(LoginRequiredMixin, View):
         if not request.user.is_superuser:
             return HttpResponseForbidden("شما اجازه سنجاق کردن مقاله را ندارید.")
         article.is_pin = not article.is_pin
+        if article.is_pin:
+            messages.success(self.request,"مقاله سنجاق شد✅")
+        else:
+            messages.success(self.request,"سنجاق مقاله برداشته شد✅")
+
         article.save()
         return redirect("blog:article-detail", slug=slug)
 
