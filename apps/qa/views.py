@@ -1,10 +1,11 @@
-from django.views.generic import ListView,DetailView,CreateView
+from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Question,Answer
 from .forms import QuestionForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.timezone import now
 from django.http import HttpResponseForbidden
-
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 class QuestionListView(ListView):
     model = Question
@@ -61,3 +62,35 @@ class QuestionCreateView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
     # TODO: if user has subscribe can ask 100 question and 1 question in month pin
+
+
+class QuestionUpdateView(UpdateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = "question_update.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        question = self.object
+        article = self.get_object()
+        if not request.user.is_superuser and request.user != article.author:
+            return HttpResponseForbidden("شما اجازه حذف این سوال را ندارید.")
+        return super().dispatch(request, *args, **kwargs)
+
+class QuestionDeleteView(DeleteView):
+    model = Question
+    template_name = "question_delete.html"
+    context_object_name = "question"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+    success_url = reverse_lazy("qa:questions")
+
+    def dispatch(self, request, *args, **kwargs):
+        article = self.get_object()
+        if not request.user.is_superuser and request.user != article.author:
+            return HttpResponseForbidden("شما اجازه حذف این مقاله را ندارید.")
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        question = self.get_object()
+        question.delete()
+        return redirect(self.success_url)
