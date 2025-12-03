@@ -142,10 +142,12 @@ class ArticlePinView(LoginRequiredMixin, View):
     def post(self, request, slug, *args, **kwargs):
         article = get_object_or_404(Article, slug=slug)
         if not request.user.is_superuser:
-            return HttpResponseForbidden("شما اجازه سنجاق کردن مقاله را ندارید.")
+            return HttpResponseForbidden("شما اجازه سنجاق کردن مقاله را ندارید.❌")
         article.is_pin = not article.is_pin
+        messages.success(self.request,"مقاله سنجاق شد✅")
         article.save()
-        return redirect("blog:article-detail", slug=slug)
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
 
 
 class ArticleFilterWithCategory(ListView):

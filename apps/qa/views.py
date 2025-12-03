@@ -1,5 +1,9 @@
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView,CreateView
 from .models import Question,Answer
+from .forms import QuestionForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.timezone import now
+from django.http import HttpResponseForbidden
 
 
 class QuestionListView(ListView):
@@ -26,3 +30,34 @@ class QuestionDetailView(DetailView):
             question=self.object,
         ).order_by("-write_date")
         return context
+
+
+class QuestionCreateView(LoginRequiredMixin,CreateView):
+    model = Question
+    template_name = "write_question.html"
+    form_class = QuestionForm
+
+    def dispatch(self, request, *args, **kwargs):
+        
+        today = now().date()
+        questions_today = Question.objects.filter(
+            author=request.user, write_date__date=today
+        )
+        if questions_today.count() >= 50 and not (
+            request.user.is_superuser
+            or request.user.groups.filter(name="نویسندگان").exists()
+        ):
+            return HttpResponseForbidden(
+                "شما نمی‌توانید بیش از 50 سوال در روز بپرسید."
+            )
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        
+        if form.instance.slug in ["question","ask"]:
+            form.add_error("slug","این شناسه در دسترس نیست")
+            return self.form_invalid(form)
+        return super().form_valid(form)
+
+    # TODO: if user has subscribe can ask 100 question and 1 question in month pin
