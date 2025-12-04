@@ -54,7 +54,7 @@ class LoginForm(forms.Form):
         password = cleaned_data.get("password")
         auth = CustomUser.objects.get(Q(username=username)|Q(email=username)).username
         if username and password:
-            user = authenticate(username=auth, password=password)
+            user = authenticate(username__iexact=auth, password=password)
             if not user:
                 raise forms.ValidationError("نام کاربری یا رمز عبور اشتباه است.")
         else:

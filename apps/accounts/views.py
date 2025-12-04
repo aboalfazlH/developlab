@@ -1,29 +1,46 @@
-from .forms import CustomUserCreationForm, LoginForm, ProfileEditForm
 from django.views.generic import CreateView, FormView, DetailView, UpdateView, ListView
-from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm, LoginForm, ProfileEditForm
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from .models import CustomUser, ProfileLink
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from apps.blog.models import Article
-from django.db.models import Q
+from .models import CustomUser, ProfileLink
 from django.shortcuts import get_object_or_404
+from apps.blog.models import Article
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.db.models import Q
 
 
 class SignUpView(CreateView):
+    """form for signup user"""
+
     model = CustomUser
     form_class = CustomUserCreationForm
     success_url = reverse_lazy("core:home-page")
     template_name = "accounts/auth/sign-up.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            messages.warning(request, "شما اکنون احراز هویت کردید")
+            return redirect(self.success_url)
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
+        """login user if form is valid"""
         response = super().form_valid(form)
-        login(self.request, self.object,backend="django.contrib.auth.backends.ModelBackend")
+
+        login(
+            self.request,
+            self.object,
+            backend="django.contrib.auth.backends.ModelBackend",
+        )
+
         return response
 
 
 class LoginView(FormView):
+    """login user"""
+
     form_class = LoginForm
     template_name = "accounts/auth/login.html"
     success_url = reverse_lazy("core:home-page")
@@ -34,10 +51,14 @@ class LoginView(FormView):
         user_username = get_object_or_404(
             CustomUser, Q(username=username) | Q(email=username)
         ).username
-        user = authenticate(self.request, username=user_username, password=password)
+        user = authenticate(
+            self.request, username__iexact=user_username, password=password
+        )
 
         if user is not None:
-            login(self.request, user,backend="django.contrib.auth.backends.ModelBackend")
+            login(
+                self.request, user, backend="django.contrib.auth.backends.ModelBackend"
+            )
             messages.success(self.request, f"خوش آمدید {self.request.user}")
             return super().form_valid(form)
 
@@ -64,6 +85,7 @@ class CustomLogoutView(LoginRequiredMixin, FormView):
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
+    """User profile"""
     model = CustomUser
     template_name = "accounts/profile.html"
     context_object_name = "profile"
@@ -74,6 +96,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         username = self.kwargs.get(self.slug_url_kwarg)
 
         if username:
+            # Perform a case-insensitive exact match on username (e.g., "Ali" matches "ali", "ALI", etc.)
             return get_object_or_404(CustomUser, username__iexact=username)
 
         return self.request.user
@@ -98,6 +121,7 @@ class CustomUserUpdateView(UpdateView):
     success_url = reverse_lazy("user-profile")
 
     def get_object(self, queryset=None):
+        """User only can edit yourself profile"""
         return self.request.user
 
 

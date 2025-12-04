@@ -3,6 +3,7 @@ from social_django.models import UserSocialAuth
 from .models import CustomUser
 
 def create_user_if_not_exists(strategy, details, backend, uid, user=None, *args, **kwargs):
+    """fix user login with github"""
     if user:
         UserSocialAuth.objects.get_or_create(user=user, provider=backend.name, uid=uid)
         return {'is_new': False, 'user': user}
