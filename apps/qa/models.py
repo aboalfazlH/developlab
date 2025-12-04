@@ -65,7 +65,6 @@ class Answer(models.Model):
     is_best = models.BooleanField("بهترین", default=False)
 
     write_date = models.DateTimeField("تاریخ مطرح شدن", auto_now_add=True)
-    slug = models.SlugField("شناسه", unique=True)
 
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="answers"
