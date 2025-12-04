@@ -1,3 +1,4 @@
+from django.utils.html import strip_tags
 from apps.accounts.models import CustomUser
 from django.db import models
 from django.utils import timezone
@@ -81,4 +82,7 @@ class Answer(models.Model):
         ordering = ["write_date"]
 
     def __str__(self):
-        return self.name
+        description = strip_tags(self.answer_description)
+        if len(description) > 50:
+            return f"{description[:50]}..."
+        return description
