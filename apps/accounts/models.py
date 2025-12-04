@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):
     def avatar_upload_path(instance, filename):
         """thumbnail upload path"""
         now = timezone.now()
-        return f"auth/avatars/{now.year}{now.month}{now.day}/{filename}"
+        return f"auth/avatars/{now.year:04}{now.month:02}{now.day:02}/{filename}"
 
     def validate_git_url(value):
         """Validate that the URL is from github.com or gitlab.com"""
@@ -45,7 +45,7 @@ class CustomUser(AbstractUser):
 
     email = models.EmailField(unique=True, verbose_name=_("email"))
     avatar = models.ImageField(
-        verbose_name=_("avatar"), upload_to=avatar_upload_path, blank=True, null=True
+        verbose_name=_("avatar"), upload_to=avatar_upload_path, default="auth/avatars/20251204/person.png"
     )
     about = models.CharField(
         max_length=200, verbose_name="درباره کاربر", blank=True, null=True

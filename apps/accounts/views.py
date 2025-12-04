@@ -19,7 +19,7 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        login(self.request, self.object)
+        login(self.request, self.object,backend="django.contrib.auth.backends.ModelBackend")
         return response
 
 
@@ -37,7 +37,7 @@ class LoginView(FormView):
         user = authenticate(self.request, username=user_username, password=password)
 
         if user is not None:
-            login(self.request, user)
+            login(self.request, user,backend="django.contrib.auth.backends.ModelBackend")
             messages.success(self.request, f"خوش آمدید {self.request.user}")
             return super().form_valid(form)
 
@@ -101,11 +101,11 @@ class CustomUserUpdateView(UpdateView):
         return self.request.user
 
 
-
 class CustomUserListView(ListView):
     model = CustomUser
     template_name = "accounts/users.html"
     context_object_name = "users"
     paginate_by = 100
+
     def get_queryset(self):
         return CustomUser.objects.filter(is_active=True).order_by("-last_login")
