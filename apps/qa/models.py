@@ -31,6 +31,13 @@ class Question(models.Model):
         CustomUser, on_delete=models.CASCADE, related_name="questions"
     )
 
+    likes = models.PositiveIntegerField(verbose_name="لایک ها",default=0)
+    dis_likes = models.PositiveIntegerField(verbose_name="دیسلایک ها",default=0)
+
+    @property
+    def score(self):
+        return self.likes - self.dis_likes
+    
     def solve(self):
         """Mark question as solved and set solve timestamp."""
         self.solved = True
@@ -52,8 +59,7 @@ class Question(models.Model):
 
 class Answer(models.Model):
     """Represents an answer submitted for a question."""
-
-    name = models.CharField("نام", max_length=110)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     answer_description = models.TextField("توضیحات پاسخ", blank=True, null=True)
     is_active = models.BooleanField("فعال", default=True)
     is_best = models.BooleanField("بهترین", default=False)
@@ -64,7 +70,12 @@ class Answer(models.Model):
     question = models.ForeignKey(
         Question, on_delete=models.CASCADE, related_name="answers"
     )
+    likes = models.PositiveIntegerField(verbose_name="لایک ها",default=0)
+    dis_likes = models.PositiveIntegerField(verbose_name="دیسلایک ها",default=0)
 
+    @property
+    def score(self):
+        return self.likes - self.dis_likes
     class Meta:
         verbose_name = "پاسخ"
         verbose_name_plural = "پاسخ‌ها"

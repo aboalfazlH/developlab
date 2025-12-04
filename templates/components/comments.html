@@ -1,7 +1,6 @@
 <div class="comments-section">
     <h4>نظرات</h4>
 
-    <!-- فرم ارسال کامنت اصلی -->
     <form action="{% url 'blog:comment-create' article.slug %}" method="post" class="mb-4">
         {% csrf_token %}
         <textarea class="form-control mb-2" name="content" rows="3" placeholder="نظر خود را بنویسید..." required></textarea>
