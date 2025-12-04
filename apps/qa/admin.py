@@ -64,7 +64,6 @@ class AnswerAdmin(admin.ModelAdmin):
     """Admin View for Answer"""
 
     list_display = (
-        "name",
         "is_active",
         "is_best",
         "write_date",
@@ -84,25 +83,11 @@ class AnswerAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
-                    "name",
                     "answer_description",
-                ),
-            },
-        ),
-        (
-            "اطلاعات پیشرفته",
-            {
-                "fields": (
                     "is_active",
                     "is_best",
                     "is_pin",
-                ),
-            },
-        ),
-        (
-            "تاریخ ها",
-            {
-                "fields": ("write_date",),
+                )
             },
         ),
     )

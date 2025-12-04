@@ -1,11 +1,20 @@
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from .models import Question,Answer
+from django.views.generic import (
+    View,
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
+from django.contrib import messages
+from .models import Question, Answer
 from .forms import QuestionForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.timezone import now
 from django.http import HttpResponseForbidden
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
+
 
 class QuestionListView(ListView):
     model = Question
@@ -15,7 +24,7 @@ class QuestionListView(ListView):
     ordering = "-write_date"
 
     def get_queryset(self):
-        return Question.objects.filter(is_active=True).order_by("solved","is_pin")
+        return Question.objects.filter(is_active=True).order_by("solved", "is_pin")
 
 
 class QuestionDetailView(DetailView):
@@ -33,13 +42,13 @@ class QuestionDetailView(DetailView):
         return context
 
 
-class QuestionCreateView(LoginRequiredMixin,CreateView):
+class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
     template_name = "write_question.html"
     form_class = QuestionForm
 
     def dispatch(self, request, *args, **kwargs):
-        
+
         today = now().date()
         questions_today = Question.objects.filter(
             author=request.user, write_date__date=today
@@ -48,16 +57,14 @@ class QuestionCreateView(LoginRequiredMixin,CreateView):
             request.user.is_superuser
             or request.user.groups.filter(name="نویسندگان").exists()
         ):
-            return HttpResponseForbidden(
-                "شما نمی‌توانید بیش از 50 سوال در روز بپرسید."
-            )
+            return HttpResponseForbidden("شما نمی‌توانید بیش از 50 سوال در روز بپرسید.")
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        
-        if form.instance.slug in ["question","ask"]:
-            form.add_error("slug","این شناسه در دسترس نیست")
+
+        if form.instance.slug in ["question", "ask"]:
+            form.add_error("slug", "این شناسه در دسترس نیست")
             return self.form_invalid(form)
         return super().form_valid(form)
 
@@ -75,6 +82,7 @@ class QuestionUpdateView(UpdateView):
         if not request.user.is_superuser and request.user != article.author:
             return HttpResponseForbidden("شما اجازه حذف این سوال را ندارید.")
         return super().dispatch(request, *args, **kwargs)
+
 
 class QuestionDeleteView(DeleteView):
     model = Question
@@ -94,3 +102,22 @@ class QuestionDeleteView(DeleteView):
         question = self.get_object()
         question.delete()
         return redirect(self.success_url)
+
+
+class AnswerCreateView(View):
+    def post(self, request, slug):
+        question = get_object_or_404(Question, slug=slug)
+        content = request.POST.get("content")
+
+        if not content:
+            messages.error(request, "متن پاسخ نباید خالی باشد.")
+            return redirect(question.get_absolute_url())
+
+        Answer.objects.create(
+                question=question,
+                user=request.user,
+                answer_description=content
+            )
+
+        messages.success(request, "پاسخ شما ثبت شد.")
+        return redirect(question.get_absolute_url())
