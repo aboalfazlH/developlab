@@ -4,6 +4,7 @@ from .models import CustomUser
 from django.contrib.auth import authenticate
 from django.db.models import Q
 
+
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
@@ -40,27 +41,13 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
+    email = forms.CharField(
         max_length=150,
         widget=forms.TextInput(attrs={"placeholder": "نام کاربری یا ایمیل"}),
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "رمز عبور"})
     )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get("username")
-        password = cleaned_data.get("password")
-        auth = CustomUser.objects.get(Q(username=username)|Q(email=username)).username
-        if username and password:
-            user = authenticate(username__iexact=auth, password=password)
-            if not user:
-                raise forms.ValidationError("نام کاربری یا رمز عبور اشتباه است.")
-        else:
-            raise forms.ValidationError("تمامی فیلدها باید پر شوند.")
-
-        return cleaned_data
 
 
 class ProfileEditForm(forms.ModelForm):

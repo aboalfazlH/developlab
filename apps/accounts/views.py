@@ -39,33 +39,36 @@ class SignUpView(CreateView):
 
 
 class LoginView(FormView):
-    """login user"""
+    """Login user using email and password"""
 
     form_class = LoginForm
     template_name = "accounts/auth/login.html"
     success_url = reverse_lazy("core:home-page")
 
     def form_valid(self, form):
-        username = form.cleaned_data.get("username")
+        email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
-        user_username = get_object_or_404(
-            CustomUser, Q(username=username) | Q(email=username)
-        ).username
-        user = authenticate(
-            self.request, username__iexact=user_username, password=password
-        )
+        account = CustomUser.objects.filter(email=email).first()
+
+        if not account:
+            form.add_error(None, "ایمیل یا رمز عبور اشتباه است.")
+            return self.form_invalid(form)
+
+        if not account.has_usable_password():
+            form.add_error(None, "شما باید با گیت هاب وارد شود")
+            return self.form_invalid(form)
+
+        user = authenticate(email=account.email, password=password)
 
         if user is not None:
-            login(
-                self.request, user, backend="django.contrib.auth.backends.ModelBackend"
-            )
-            messages.success(self.request, f"خوش آمدید {self.request.user}")
+            login(self.request, user)
+            messages.success(self.request, f"خوش آمدید {user}")
             return super().form_valid(form)
-
-        form.add_error(None, "نام کاربری یا رمز عبور اشتباه است.")
+        form.add_error(None, "ایمیل یا رمز عبور اشتباه است.")
         return self.form_invalid(form)
 
     def dispatch(self, request, *args, **kwargs):
+        """Redirect authenticated users to home page"""
         if request.user.is_authenticated:
             messages.warning(request, "شما اکنون احراز هویت کردید")
             return redirect(self.success_url)
