@@ -43,7 +43,7 @@ class ArticleListView(ListView):
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
-    template_name = "write_article.html"
+    template_name = "article-create.html"
     success_url = reverse_lazy("blog:articles")
 
     def dispatch(self, request, *args, **kwargs):
