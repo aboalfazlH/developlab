@@ -21,9 +21,9 @@
             <div class="card p-3 d-flex flex-row align-items-start" >
                 <!-- Vote -->
                 <div class="vote-box">
-                    <div class="vote-btn">▲</div>
-                    <div>{{ question.upvotes|default:0 }}</div>
-                    <div class="vote-btn">▼</div>
+                    <form method="post" action="{% url 'qa:like-question' question.slug %}" class="vote-btn"><a type="submit">▲</a></form>
+                    <div>{{ question.score }}</div>
+                    <form method="post" action="{% url 'qa:dislike-question' question.slug %}" class="vote-btn"><a type="submit">▼</a></form>
                 </div>
 
                 <!-- Question Info -->
