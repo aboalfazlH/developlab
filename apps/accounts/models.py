@@ -1,7 +1,7 @@
+from apps.core.models import BaseLink
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.template.defaultfilters import slugify
-from apps.core.models import BaseLink
 from django.utils import timezone
 from django.db import models
 from . import validators
@@ -18,7 +18,6 @@ class ProfileLink(BaseLink):
 
     def __str__(self):
         return f"{self.link_type} ی {self.user}"
-
 
 
 class CustomUser(AbstractUser):
@@ -50,7 +49,7 @@ class CustomUser(AbstractUser):
         max_length=200, verbose_name="درباره کاربر", blank=True, null=True
     )
     bio = models.TextField(verbose_name="بیوگرافی", blank=True, null=True)
-    
+
     # Links
     git_account = models.URLField(
         verbose_name="حساب گیت هاب/گیت لب",
@@ -59,28 +58,28 @@ class CustomUser(AbstractUser):
         null=True,
     )
     website = models.URLField(verbose_name="سایت", blank=True, null=True)
-    
+
     facebook = models.URLField(
         verbose_name="فیس بوک",
         blank=True,
         null=True,
         validators=[validators.validate_facebook_link],
     )
-    
+
     instagram = models.URLField(
         verbose_name="اینستاگرام",
         blank=True,
         null=True,
         validators=[validators.validate_instagram_link],
     )
-    
+
     linkedin = models.URLField(
         verbose_name="لینکدین",
         blank=True,
         null=True,
         validators=[validators.validate_linkedin_link],
     )
-    
+
     telegram = models.URLField(
         verbose_name="تلگرام",
         blank=True,
@@ -95,7 +94,6 @@ class CustomUser(AbstractUser):
         default=False,
     )
 
-    
     # Public fields
     public_email = models.EmailField(verbose_name="ایمیل عمومی", blank=True, null=True)
 
@@ -106,7 +104,6 @@ class CustomUser(AbstractUser):
     # Meta
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ("phone_number", "username")
-
 
     # Properties
     @property
@@ -119,11 +116,10 @@ class CustomUser(AbstractUser):
             self.instagram,
             self.linkedin,
             self.telegram,
-            ProfileLink.objects.filter(user=self).exists()
+            ProfileLink.objects.filter(user=self).exists(),
         ]
         return any(links)
 
-    
     def get_absolute_url(self):
         """Get User Detail"""
         from django.urls import reverse
@@ -134,3 +130,5 @@ class CustomUser(AbstractUser):
         """Str for user model"""
         full_name = self.get_full_name().strip()
         return full_name if full_name else self.username
+
+

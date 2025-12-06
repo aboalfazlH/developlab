@@ -78,6 +78,8 @@ class BaseLike(models.Model):
         verbose_name_plural = "BaseLikes"
         abstract = True
 
+    def __str__(self):
+        return f"لایک {self.user}"
 
 class BaseDisLike(BaseLike):
     user = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE)
@@ -86,3 +88,6 @@ class BaseDisLike(BaseLike):
         verbose_name = "BaseDisLike"
         verbose_name_plural = "BaseDisLikes"
         abstract = True
+    
+    def __str__(self):
+        return f"دیس لایک {self.user}"
