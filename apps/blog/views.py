@@ -94,7 +94,7 @@ class ArticleUpdateView(UpdateView):
 
 class ArticleDetailView(DetailView):
     model = Article
-    template_name = "article_detail.html"
+    template_name = "article-detail.html"
     context_object_name = "article"
     slug_field = "slug"
     slug_url_kwarg = "slug"
