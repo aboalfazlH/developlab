@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.utils import timezone
 from django.urls import reverse
 from apps.accounts.models import CustomUser
-from apps.core.models import BaseLike, BaseDisLike
+from apps.core.models import BaseLike, BaseDisLike, BaseCategory
 
 
 def upload_to_question(instance, filename):
@@ -181,3 +181,17 @@ class ADisLike(BaseDisLike):
 
     def __str__(self):
         return f"{self.user} disliked {self.answer}"
+
+
+class QuestionCategory(BaseCategory):
+    question = models.ForeignKey(Question,on_delete=models.CASCADE)
+
+    class Meta:
+        """Meta definition for Category."""
+
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
+
+    def __str__(self):
+        """Unicode representation of Category."""
+        return f"{self.name}"
