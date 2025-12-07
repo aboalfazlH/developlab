@@ -46,7 +46,7 @@ class ArticleAdmin(SummernoteModelAdmin):
     )
     date_hierarchy = "write_date"
     ordering = ("-write_date", "is_active")
-    list_per_page = 20
+    list_per_page = 50
     fieldsets = (
         (
             "اطلاعات اصلی",
