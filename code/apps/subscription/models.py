@@ -6,6 +6,7 @@ class SubscriptionPlan(models.Model):
     """Model definition for SubscriptionPlan."""
 
     plan_name = models.CharField(verbose_name="نام پلن")
+    real_name = models.CharField(verbose_name="نام پلن")
     price = models.PositiveIntegerField(verbose_name="قیمت",default=0)
     value = models.PositiveIntegerField(verbose_name="ارزش پلن",default=0)
 

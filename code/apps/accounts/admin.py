@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django_summernote.admin import SummernoteModelAdmin
 from .models import CustomUser, ProfileLink
 from .forms import CustomUserChangeForm, CustomUserCreationForm
+from .actions import actions as user_actions
 
 
 @admin.register(CustomUser)
@@ -107,8 +108,7 @@ class CustomUserAdmin(SummernoteModelAdmin, UserAdmin):
             },
         ),
     )
+    actions = user_actions
 
 
-admin.site.register(
-    ProfileLink,
-)
+admin.site.register(ProfileLink)
