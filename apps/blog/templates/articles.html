@@ -1,24 +1,18 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block title %}لیست مقالات{% endblock title %}
-
-{% block meta %}
-<meta name="description" content="لیست مقالات وبسایت">
-{% endblock meta %}
-
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/article-list.css' %}">
-{% endblock styles %}
-
-{% block content %}
+{% block title %}
+لیست مقالات
+{%endblock title %} {% block meta %}
+<meta name="description" content="لیست مقالات وبسایت" />
+{% endblock meta %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/article-list.css' %}" />
+{% endblock styles %} {% block content %}
 <div class="container mt-4">
-
   <div class="row">
     <div class="col-lg-9 col-md-8">
-
       <div class="d-flex justify-content-between align-items-center">
-        <h1>مقالات
-          {% if category %}
+        <h1>
+          مقالات {% if category %}
           <span class="badge bg-info text-dark">با برچسب {{ category.name }}</span>
           {% endif %}
         </h1>
@@ -29,14 +23,12 @@
       <a href="{% url 'blog:articles' %}" class="btn btn-outline-secondary btn-sm mt-2">حذف فیلتر</a>
       {% endif %}
 
-      <hr>
-
+      <hr />
       {% for article in articles %}
       <div class="article-card {% if article.is_pin or article.most_visited %}pin{% endif %}"
         onclick="window.location='{{ article.get_absolute_url }}';">
-
         {% if article.thumbnail %}
-        <img src="{{ article.thumbnail.url }}" class="thumbnail" alt="{{ article.title }}">
+        <img src="{{ article.thumbnail.url }}" class="thumbnail" alt="{{ article.title }}" />
         {% else %}
         <div class="thumbnail-placeholder">بدون تصویر</div>
         {% endif %}
@@ -47,23 +39,23 @@
 
           <p class="author-box">
             نویسنده: {{ article.author }}
-            <span class="text-muted"> | {{ article.write_date|timesince }} قبل</span>
+            <span class="text-muted">
+              | {{ article.write_date|timesince }} قبل</span>
             <span class="text-muted"> | {{ article.views }} بازدید</span>
           </p>
 
           {% if article.is_pin %}
           <span class="badge bg-warning text-dark">ویژه</span>
-          {% endif %}
-          {% if article.most_visited %}
+          {% endif %} {% if article.most_visited %}
           <span class="badge bg-danger text-dark">پربازدید</span>
-          {% endif %}
+          {% endif %} {% for category in article.categories.all %}
+          <span style="background-color:{{ category.color }};" class="badge">{{ category }}</span>
+          {% empty %} {% endfor %}
         </div>
       </div>
       {% empty %}
       <div class="alert alert-warning text-center">هیچ مقاله‌ای یافت نشد.</div>
-      {% endfor %}
-
-      {% include 'components/pagination.html' %}
+      {% endfor %} {% include 'components/pagination.html' %}
     </div>
 
     <div class="col-lg-3 col-md-4">
@@ -71,13 +63,12 @@
         <h5 class="mb-3">دسته‌بندی‌ها</h5>
         {% for category in categories %}
         <a href="{% url 'blog:article-list-category' category.slug %}" class="d-block mb-2 badge bg-light text-dark"
-          style="font-size:0.9rem;border:1px solid #ccc;">
+          style="font-size: 0.9rem; border: 1px solid #ccc">
           {{ category.name }} ({{ category.article_count }})
         </a>
         {% endfor %}
       </div>
     </div>
-
   </div>
 </div>
 {% endblock content %}

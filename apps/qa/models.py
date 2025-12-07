@@ -4,7 +4,9 @@ from django.db.models import Count
 from django.utils import timezone
 from django.urls import reverse
 from apps.accounts.models import CustomUser
-from apps.core.models import BaseLike, BaseDisLike
+from apps.core.models import BaseLike, BaseDisLike, Category
+
+
 
 
 def upload_to_question(instance, filename):
@@ -28,6 +30,8 @@ class Question(models.Model):
     author = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, related_name="questions"
     )
+
+    categories = models.ManyToManyField(Category, related_name="questions", verbose_name="دسته‌بندی‌ها")
 
     @property
     def stats(self):

@@ -1,5 +1,5 @@
 from django.db import models
-
+from colorfield.fields import ColorField
 
 
 class BaseCategory(models.Model):
@@ -81,6 +81,7 @@ class BaseLike(models.Model):
     def __str__(self):
         return f"لایک {self.user}"
 
+
 class BaseDisLike(BaseLike):
     user = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE)
 
@@ -88,6 +89,23 @@ class BaseDisLike(BaseLike):
         verbose_name = "BaseDisLike"
         verbose_name_plural = "BaseDisLikes"
         abstract = True
-    
+
     def __str__(self):
         return f"دیس لایک {self.user}"
+
+
+class Category(BaseCategory):
+    """Model definition for Category."""
+
+    slug = models.SlugField("شناسه", unique=True)
+    color = ColorField(default="ff0000")
+
+    class Meta:
+        """Meta definition for Category."""
+
+        verbose_name = "برچسب"
+        verbose_name_plural = "برچسب ها"
+
+    def __str__(self):
+        """Unicode representation of Category."""
+        return f"{self.name}"
