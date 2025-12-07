@@ -41,9 +41,9 @@
                         question.write_date|date:"M d, Y" }}</p>
                     <div class="mb-1">
                         {% for category in question.categories.all %}
-                        <span class="badge bg-primary category-badge">{{ category.name }}</span>
+                        <span style="background-color: {{ category.color }};" class="badge category-badge">{{ category.name }}</span>
                         {% endfor %}
-                    </div>
+                    </div> 
                     <div class="d-flex gap-2 flex-wrap">
                         {% if question.is_active %}<span class="badge bg-success">فعال</span>{% else %}<span
                             class="badge bg-secondary">غیرفعال</span>{% endif %}
