@@ -7,8 +7,12 @@ class SubscriptionPlan(models.Model):
 
     plan_name = models.CharField(verbose_name="نام پلن")
     real_name = models.CharField(verbose_name="نام پلن")
-    price = models.PositiveIntegerField(verbose_name="قیمت",default=0)
-    value = models.PositiveIntegerField(verbose_name="ارزش پلن",default=0)
+    price = models.PositiveIntegerField(verbose_name="قیمت", default=0)
+    value = models.PositiveIntegerField(verbose_name="ارزش پلن", default=0)
+    is_active = models.BooleanField(default=True, verbose_name="فعال")
+    articles = models.CharField(verbose_name="وضعیت مقالات",blank=True,null=True)
+    questions = models.CharField(verbose_name="وضعیت پرسش ها",blank=True,null=True)
+    private_projects = models.CharField(verbose_name="وضعیت پروژه های خصوصی",blank=True,null=True)
 
     class Meta:
         """Meta definition for SubscriptionPlan."""

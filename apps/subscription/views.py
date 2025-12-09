@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Subscription,SubscriptionPlan
 
-# Create your views here.
+
+class SubscriptionPlanListView(ListView):
+    model = SubscriptionPlan
+    template_name = "sub-plans.html"
+    context_object_name = "sub_plans"
+    def get_queryset(self):
+        return SubscriptionPlan.objects.filter(is_active=True).order_by("value")

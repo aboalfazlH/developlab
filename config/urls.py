@@ -21,10 +21,11 @@ third_party_urls = [
     path("docs/redoc/", SpectacularRedocView.as_view(url_name="schema")),
 ]
 local_urls = [
+    path("question-answer/", include("apps.qa.urls")),
+    path("subscription/", include("apps.subscription.urls")),
     path("accounts/", include("apps.accounts.urls")),
     path("blog/", include("apps.blog.urls")),
     path("api/", include("apps.api.urls")),
-    path("question-answer/", include("apps.qa.urls")),
     path("", include("apps.core.urls")),
 ]
 urlpatterns = django_urls + third_party_urls + local_urls

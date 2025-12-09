@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% block title %}
+پلن های اشتراک
+{% endblock title %}
+{% block content %}
+
+{% for sub_plan in sub_plans %}
+    <p>{{ sub_plan }}</p>
+    <p>{{ sub_value }}</p>
+{% endfor %}
+    
+{% endblock content %}
