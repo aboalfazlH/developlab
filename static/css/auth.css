@@ -1,0 +1,38 @@
+.form {
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.form input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.6s ease;
+}
+.form .github {
+  width: 100%;
+  text-align: center;
+  background-color: #000;
+  padding: 1% 39.8%;
+  border: 1px solid #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: border-color 0.6s ease;
+}
+.form input:focus {
+  border-width: 1.5px;
+  border-color: #007bff;
+  outline: none;
+}
+.form .center-btn {
+    width: 40%;
+  margin: 15px 30%;
+}

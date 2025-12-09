@@ -4,12 +4,13 @@
 ثبت نام
 {% endblock title %}
 {% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
 {% endblock styles %}
 {% block content %}
-<form action="" method="post">
+<form action="" class="form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <p>ادامه با <a href="{% url 'social:begin' 'github' %}">گیت هاب</a></p>
-    <button class="btn btn-success" type="submit">ثبت نام</button>
+    <a href="{% url 'social:begin' 'github' %}" class="github">ادامه با گیت هاب</a>
+    <button class="btn center-btn btn-success" type="submit">ثبت نام</button>
 </form>
 {% endblock content %}

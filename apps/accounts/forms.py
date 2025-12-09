@@ -43,10 +43,12 @@ class CustomUserChangeForm(UserChangeForm):
 class LoginForm(forms.Form):
     email = forms.CharField(
         max_length=150,
-        widget=forms.TextInput(attrs={"placeholder": "نام کاربری یا ایمیل"}),
+        widget=forms.TextInput(attrs={"placeholder": "ایمیل"}),
+        label="",
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "رمز عبور"})
+        widget=forms.PasswordInput(attrs={"placeholder": "رمز عبور"}),
+        label="",
     )
 
 

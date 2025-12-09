@@ -1,12 +1,17 @@
 {% extends 'base/base.html' %}
+{% load static %}
 {% block title %}
 ورود
 {% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock styles %}
 {% block content %}
-<form action="" method="post">
+<form action="" class="form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <p>ورود با <a href="{% url 'social:begin' 'github' %}">گیت هاب</a></p>
-    <button class="btn btn-success" type="submit">ورود</button>
+    <a href="{% url 'social:begin' 'github' %}" class="github">ادامه با گیت هاب</a>
+    <br>
+    <button class="btn center-btn btn-success" type="submit">ورود</button>
 </form>
 {% endblock content %}
