@@ -1,109 +1,103 @@
 {% load static %}
 <!DOCTYPE html>
 <html dir="rtl" lang="fa-IR">
+  <head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %}
 
-<head>
-    <!-- Meta Tags -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block meta %}{% endblock meta %}
-
+    {% endblock %}
     <!-- Title -->
-    <title>آزمایشگاه توسعه|{% block title %}{% endblock title %}</title>
+    <title>
+      آزمایشگاه توسعه |{% block title %}
 
-    <!-- Favicon -->
-    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
-    <link rel="manifest" href="{% static 'images/site.webmanifest' %}">
-
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+      {% endblock %}
+    </title>
+    <!-- Favicons -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" />
+    <link rel="icon" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}" />
+    <link rel="icon" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}" />
+    <link rel="manifest" href="{% static 'images/site.webmanifest' %}" />
+    <!-- Core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Summernote CSS -->
+    <link href="{% static 'summernote/summernote-bs5.min.css' %}" rel="stylesheet" />
+    <!-- Project CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+    {% block styles %}
 
-    {% block styles %}{% endblock styles %}
-</head>
-
-<body data-theme="dark">
-    <!-- Header Include -->
+    {% endblock %}
+  </head>
+  <body data-theme="dark">
     {% include 'base/header.html' %}
-
     <main class="container py-4">
-        <!-- Django Messages -->
-        {% if messages %}
+      <!-- Django Messages -->
+      {% if messages %}
         <div class="mb-3">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+              {{ message }}
+              <button class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-            {% endfor %}
+          {% endfor %}
         </div>
-        {% endif %}
+      {% endif %}
+      {% block content %}
 
-        {% block content %}{% endblock content %}
+      {% endblock %}
     </main>
-
-    <!-- Footer Include -->
     {% include 'base/footer.html' %}
-
-    <!-- Scripts -->
+    <!-- JS: Core Libraries -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    <!-- Local -->
+    <!-- Summernote -->
+    <script src="{% static 'summernote/summernote-bs5.min.js' %}"></script>
+    <script src="{% static 'summernote/lang/summernote-fa-IR.js' %}"></script>
+    <!-- Project Scripts -->
     <script src="{% static 'js/linkchecker.js' %}"></script>
     <script src="{% static 'js/hidemessage.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-
-    <!-- Summernote CSS/JS -->
-    <link href="{% static 'summernote/summernote-bs5.min.css' %}" rel="stylesheet">
-    <script src="{% static 'summernote/summernote-bs5.min.js' %}"></script>
-
+    <!-- Init Plugins -->
     <script>
-        $(document).ready(function () {
-            $('#id_categories').select2({
-                language: 'fa',
-                theme: 'default',
-                width: '100%',
-                ajax: {
-                    url: "{% url 'core:categories-autocomplete' %}",
-                    dataType: 'json',
-                    delay: 250,
-                    data: function (params) {
-                        return { q: params.term };
-                    },
-                    processResults: function (data) {
-                        return { results: data.results };
-                    },
-                    cache: true
-                },
-                minimumInputLength: 3
-            });
-
-            $('.summernote').summernote({
-                height: 480,
-                lang: 'fa-IR',
-                toolbar: [
-                    ['style', ['style']],
-                    ['font', ['bold', 'italic', 'underline', 'clear']],
-                    ['fontname', ['fontname']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['insert', ['link', 'picture', 'video', 'hr']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-        });
+      $(function () {
+        // Select2
+        $('#id_categories').select2({
+          language: 'fa',
+          width: '100%',
+          ajax: {
+            url: "{% url 'core:categories-autocomplete' %}",
+            dataType: 'json',
+            delay: 250,
+            data: (params) => ({ q: params.term }),
+            processResults: (data) => ({ results: data.results }),
+            cache: true
+          },
+          minimumInputLength: 3
+        })
+        // Summernote
+        $('.summernote').summernote({
+          height: 480,
+          lang: 'fa-IR',
+          toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['insert', ['link', 'picture', 'video', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+          ]
+        })
+      })
     </script>
-    {% block scripts %}{% endblock scripts %}
-</body>
+    {% block scripts %}
 
+    {% endblock %}
+  </body>
 </html>
