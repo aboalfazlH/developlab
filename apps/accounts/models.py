@@ -39,7 +39,8 @@ class CustomUser(AbstractUser):
         null=True,
         validators=[validators.validate_phone_number],
     )
-
+    followers = models.ManyToManyField("self")
+    following = models.ManyToManyField("self")
     # Personal info
     avatar = models.ImageField(
         verbose_name=_("avatar"),

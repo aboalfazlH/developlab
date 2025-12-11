@@ -1,13 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django_summernote.admin import SummernoteModelAdmin
 from .models import CustomUser, ProfileLink
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .actions import actions as user_actions
 
 
 @admin.register(CustomUser)
-class CustomUserAdmin(SummernoteModelAdmin, UserAdmin):
+class CustomUserAdmin(UserAdmin):
     """Admin View for CustomUser"""
 
     form = CustomUserChangeForm
@@ -103,12 +102,20 @@ class CustomUserAdmin(SummernoteModelAdmin, UserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
+                    "followers",
+                    "following",
                 ),
             },
         ),
     )
+    
     actions = user_actions
-
+    filter_horizontal = (
+        "groups",
+        "user_permissions",
+        "followers",
+        "following"
+    )
 
 @admin.register(ProfileLink)
 class ProfileLinkAdmin(admin.ModelAdmin):

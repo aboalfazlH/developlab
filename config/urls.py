@@ -13,7 +13,6 @@ django_urls = [
     path("admin/", admin.site.urls),
 ]
 third_party_urls = [
-    path("summernote/", include("django_summernote.urls")),
     path("select2/", include("django_select2.urls")),
     path("oauth/", include("social_django.urls", namespace="social")),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),

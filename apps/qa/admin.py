@@ -1,9 +1,8 @@
 from django.contrib import admin
 from .models import Question, Answer
-from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(Question)
-class QuestionAdmin(SummernoteModelAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     """Admin View for Question"""
 
     list_display = (
@@ -14,7 +13,6 @@ class QuestionAdmin(SummernoteModelAdmin):
         "write_date",
         "solve_date",
     )
-    summernote_fields = ("question_description",)
     list_filter = (
         "is_active",
         "solved",
@@ -62,7 +60,7 @@ class QuestionAdmin(SummernoteModelAdmin):
 
 
 @admin.register(Answer)
-class AnswerAdmin(SummernoteModelAdmin):
+class AnswerAdmin(admin.ModelAdmin):
     """Admin View for Answer"""
 
     list_display = (
@@ -71,7 +69,6 @@ class AnswerAdmin(SummernoteModelAdmin):
         "is_best",
         "write_date",
     )
-    summernote_fields = ("answer_description",)
     list_filter = (
         "is_active",
         "is_best",
