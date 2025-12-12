@@ -21,7 +21,7 @@ third_party_urls = [
 ]
 local_urls = [
     path("question-answer/", include("apps.qa.urls")),
-    path("subscription/", include("apps.subscription.urls")),
+    path("pricing/", include("apps.pricing.urls")),
     path("accounts/", include("apps.accounts.urls")),
     path("blog/", include("apps.blog.urls")),
     path("api/", include("apps.api.urls")),

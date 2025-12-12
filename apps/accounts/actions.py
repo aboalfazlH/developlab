@@ -1,7 +1,7 @@
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib import admin, messages
-from apps.subscription.models import Subscription, SubscriptionPlan
+from apps.pricing.models import Subscription, SubscriptionPlan
 
 
 @admin.action(description="فعال کردن اشتراک برنزی 30 روزه")

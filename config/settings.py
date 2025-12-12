@@ -39,7 +39,7 @@ LOCAL_APPS = [
     "apps.blog",
     "apps.qa",
     "apps.api",
-    "apps.subscription",
+    "apps.pricing",
     "apps.projects",
 ]
 

@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subscription', '0005_subscriptionplan_is_active'),
+        ('pricing', '0005_subscriptionplan_is_active'),
     ]
 
     operations = [

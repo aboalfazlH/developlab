@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('start_date', models.DateTimeField(auto_now_add=True)),
                 ('end_date', models.DateTimeField()),
                 ('subscription_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('subscription_plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subscription.subscriptionplan')),
+                ('subscription_plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pricing.subscriptionplan')),
             ],
             options={
                 'verbose_name': 'Subscription',

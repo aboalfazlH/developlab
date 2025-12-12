@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('subscription', '0001_initial'),
+        ('pricing', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -36,7 +36,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='subscription',
             name='subscription_plan',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='subscription.subscriptionplan', verbose_name='پلن اشتراک'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='pricing.subscriptionplan', verbose_name='پلن اشتراک'),
         ),
         migrations.AlterField(
             model_name='subscription',
