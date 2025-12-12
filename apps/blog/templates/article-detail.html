@@ -1,7 +1,18 @@
 {% extends 'base/base.html' %}
 
 {% block title %}{{ article.title }}{% endblock %}
-
+{% block styles %}
+<style>
+.article-content pre {
+    padding:10px;
+    margin:0 10px;
+    border-radius:10px;
+    direction:ltr;
+    background-color:black;
+    color:white;
+}
+</style>
+{% endblock styles %}
 {% block content %}
 <div class="container my-5">
 

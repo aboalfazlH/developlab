@@ -5,37 +5,38 @@
     <!-- Meta -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block meta %}
+    {% block meta %}{% endblock %}
 
-    {% endblock %}
     <!-- Title -->
     <title>
-      آزمایشگاه توسعه |{% block title %}
-
-      {% endblock %}
+      آزمایشگاه توسعه |{% block title %}{% endblock %}
     </title>
+
     <!-- Favicons -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="icon" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}" />
     <link rel="icon" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}" />
     <link rel="manifest" href="{% static 'images/site.webmanifest' %}" />
+
     <!-- Core CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Summernote CSS -->
-    <link href="{% static 'summernote/summernote-bs5.min.css' %}" rel="stylesheet" />
+
+    <!-- Highlight.js Theme -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+
     <!-- Project CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/header.css' %}" />
-    {% block styles %}
 
-    {% endblock %}
+    {% block styles %}{% endblock %}
   </head>
+
   <body data-theme="dark">
     {% include 'base/header.html' %}
+
     <main class="container py-4">
-      <!-- Django Messages -->
       {% if messages %}
         <div class="mb-3">
           {% for message in messages %}
@@ -46,26 +47,25 @@
           {% endfor %}
         </div>
       {% endif %}
-      {% block content %}
 
-      {% endblock %}
+      {% block content %}{% endblock %}
     </main>
+
     {% include 'base/footer.html' %}
-    <!-- JS: Core Libraries -->
+
+    <!-- Core JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <!-- Summernote -->
-    <script src="{% static 'summernote/summernote-bs5.min.js' %}"></script>
-    <script src="{% static 'summernote/lang/summernote-fa-IR.js' %}"></script>
+
     <!-- Project Scripts -->
     <script src="{% static 'js/linkchecker.js' %}"></script>
     <script src="{% static 'js/hidemessage.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <!-- Init Plugins -->
+
+    <!-- Select2 Initialization -->
     <script>
       $(function () {
-        // Select2
         $('#id_categories').select2({
           language: 'fa',
           width: '100%',
@@ -78,26 +78,22 @@
             cache: true
           },
           minimumInputLength: 3
-        })
-        // Summernote
-        $('.summernote').summernote({
-          height: 480,
-          lang: 'fa-IR',
-          toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'italic', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture', 'video', 'hr']],
-            ['view', ['fullscreen', 'codeview', 'help']]
-          ]
-        })
-      })
+        });
+      });
     </script>
-    {% block scripts %}
 
-    {% endblock %}
+    <!-- Highlight.js -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/all.min.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("pre").forEach((el) => {
+          hljs.highlightElement(el);
+        });
+      });
+    </script>
+
+    {% block scripts %}{% endblock %}
   </body>
 </html>
