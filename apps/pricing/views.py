@@ -7,4 +7,4 @@ class SubscriptionPlanListView(ListView):
     template_name = "sub-plans.html"
     context_object_name = "sub_plans"
     def get_queryset(self):
-        return SubscriptionPlan.objects.filter(is_active=True).order_by("value")
+        return SubscriptionPlan.objects.all().order_by("value")
