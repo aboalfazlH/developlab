@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Subscription, SubscriptionPlan
+from .models import (
+    Subscription, 
+    SubscriptionPlan, 
+    DiscountCode, 
+    DiscountCodeUsage, 
+    DiscountItem, 
+    Product,
+)
 
 
 @admin.register(Subscription)
@@ -32,3 +39,25 @@ class SubscriptionPlanAdmin(admin.ModelAdmin):
         pass
     def log_deletion(self, request, obj, object_repr):
         pass
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'product_type', 'price')
+    list_filter = ('product_type',)
+    search_fields = ('name',)
+
+class DiscountItemInline(admin.TabularInline):
+    model = DiscountItem
+    extra = 1
+
+@admin.register(DiscountCode)
+class DiscountCodeAdmin(admin.ModelAdmin):
+    list_display = ('code', 'active', 'created_at', 'expires_at')
+    inlines = [DiscountItemInline]
+
+@admin.register(DiscountCodeUsage)
+class DiscountCodeUsageAdmin(admin.ModelAdmin):
+    list_display = ('discount_code', 'user', 'used_at')
+    search_fields = ('discount_code__code', 'user__username')
+    readonly_fields = ('discount_code', 'user', 'used_at')

@@ -5,4 +5,4 @@ class SubscriptionConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "apps.pricing"
     label = "pricing"
-    verbose_name = "اشتراک"
+    verbose_name = "قیمت ها"
