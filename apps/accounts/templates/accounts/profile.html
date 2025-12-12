@@ -1,9 +1,18 @@
-{% extends 'base/base.html' %} {% load static %} {% block title %}پروفایل {{
-profile.username }}{% endblock title %} {% block meta %}
+{% extends 'base/base.html' %}
+{% load static %}
+{% load follow_tags %} {# حتماً follow_tags.py تو templatetags باشه #}
+
+{% block title %}پروفایل {{ profile.username }}{% endblock title %}
+
+{% block meta %}
 <meta name="description" content="پروفایل {{ profile }}" />
-{% endblock meta %} {% block styles %}
+{% endblock meta %}
+
+{% block styles %}
 <link rel="stylesheet" href="{% static 'css/profile.css' %}" />
-{% endblock styles %} {% block content %}
+{% endblock styles %}
+
+{% block content %}
 <div class="profile-container">
     <!-- Header -->
     <div class="profile-header">
@@ -16,39 +25,51 @@ profile.username }}{% endblock title %} {% block meta %}
         {% endif %}
 
         <div>
-            <h2 class="profile-name">
-                {{ profile.full_name|default:profile.username }}
-            </h2>
+            <h2 class="profile-name">{{ profile.full_name|default:profile.username }}</h2>
             <p class="profile-username">@{{ profile.username }}</p>
+
             {% if profile.public_email %}
             <p class="profile-email">{{ profile.public_email }}</p>
-            {% endif %} {% if profile.public_phone_number %}
+            {% endif %}
+            {% if profile.public_phone_number %}
             <p class="profile-phone-number">{{ profile.public_phone_number }}</p>
             {% endif %}
-            {% if profile.followers or profile.following %}
-            <span class="badge bg-primary me-1">
-                دنبال کنندگان: {{ profile.followers.count }}
-            </span>
-            <span class="badge bg-secondary">
-                دنبال شوندگان: {{ profile.following.count }}
-            </span>
+            <div class="profile-follow">
+                <span class="badge bg-primary me-1">
+                    دنبال کنندگان: {{ profile.followers.count }}
+                </span>
+                <span class="badge bg-secondary">
+                    دنبال‌شوندگان: {{ profile.following.count }}
+                </span>
+            </div>
 
+            {% if user.is_authenticated and user != profile %}
+            <form action="{% url 'user-follow' profile.username %}" method="post">
+                {% csrf_token %}
+                {% if user|is_following:profile %}
+                <button class="btn btn-danger" type="submit">لغو دنبال</button>
+                {% else %}
+                <button class="btn btn-primary" type="submit">دنبال کردن</button>
+                {% endif %}
+            </form>
             {% endif %}
         </div>
     </div>
 
     <!-- About -->
     <h5>درباره {{ profile }}</h5>
-
     {% if profile.subscribe_status == "اشتراک فعال✅" %}
     <span class="badge bg-warning">کاربر ویژه</span>
     {% endif %}
     {% if profile.is_staff %}
     <span class="badge bg-primary">ناظر</span>
     {% endif %}
-    {% for group in profile.groups.all %} {% if group.name == "کارمندان" %}
+    {% for group in profile.groups.all %}
+    {% if group.name == "کارمندان" %}
     <span class="badge bg-success">کارمند</span>
-    {% endif %} {% endfor %} {% if profile.about %}
+    {% endif %}
+    {% endfor %}
+    {% if profile.about %}
     <section class="profile-section">
         <p>{{ profile.about }}</p>
     </section>
@@ -71,11 +92,13 @@ profile.username }}{% endblock title %} {% block meta %}
     <!-- Articles -->
     <h5>مقالات {{ profile }}</h5>
     <section class="profile-section">
-        {% if articles %} {% for article in articles %}
+        {% if articles %}
+        {% for article in articles %}
         <article>
             <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
         </article>
-        {% endfor %} {% else %}
+        {% endfor %}
+        {% else %}
         <p>این {{ profile }} هنوز مقاله‌ای منتشر نکرده است.</p>
         {% endif %}
     </section>
@@ -92,22 +115,28 @@ profile.username }}{% endblock title %} {% block meta %}
             {% else %} حساب گیت
             {% endif %}
         </a>
-        {% endif %} {% if profile.website %}
+        {% endif %}
+        {% if profile.website %}
         <h6>وب‌سایت</h6>
         <a href="{{ profile.website }}" class="profile-link" target="_blank">{{ profile.website }}</a>
-        {% endif %} {% if profile.instagram %}
+        {% endif %}
+        {% if profile.instagram %}
         <h6>اینستاگرام</h6>
         <a href="{{ profile.instagram }}" class="profile-link" target="_blank">{{ profile.instagram }}</a>
-        {% endif %} {% if profile.facebook %}
+        {% endif %}
+        {% if profile.facebook %}
         <h6>فیسبوک</h6>
         <a href="{{ profile.facebook }}" class="profile-link" target="_blank">{{ profile.facebook }}</a>
-        {% endif %} {% if profile.linkedin %}
+        {% endif %}
+        {% if profile.linkedin %}
         <h6>لینکدین</h6>
         <a href="{{ profile.linkedin }}" class="profile-link" target="_blank">{{ profile.linkedin }}</a>
-        {% endif %} {% if profile.telegram %}
+        {% endif %}
+        {% if profile.telegram %}
         <h6>تلگرام</h6>
         <a href="{{ profile.telegram }}" class="profile-link" target="_blank">{{ profile.telegram }}</a>
-        {% endif %} {% for link in links %}
+        {% endif %}
+        {% for link in links %}
         <h6>{{ link.link_name }}</h6>
         <a href="{{ link.link_url }}" class="profile-link" target="_blank">{{ link.link_url }}</a>
         {% endfor %}
@@ -116,12 +145,14 @@ profile.username }}{% endblock title %} {% block meta %}
     <p>لینکی از {{ profile }} در دسترس نیست</p>
     {% endif %}
 
-    <!-- TODO : Tech Stack -->
+    <!-- Tech Stack -->
     <section class="profile-section profile-tech">
         <h5>تکنولوژی‌ها</h5>
-        {% if profile.tech_stack %} {% for tech in profile.tech_stack %}
+        {% if profile.tech_stack %}
+        {% for tech in profile.tech_stack %}
         <span class="badge bg-light text-dark border">{{ tech }}</span>
-        {% endfor %} {% else %}
+        {% endfor %}
+        {% else %}
         <p>هنوز تکنولوژی‌ای اضافه نشده است.</p>
         {% endif %}
     </section>

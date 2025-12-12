@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, FormView, DetailView, UpdateView, ListView
+from django.views.generic import CreateView, FormView, DetailView, UpdateView, ListView,View
 from .forms import CustomUserCreationForm, LoginForm, ProfileEditForm
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from apps.blog.models import Article
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.db.models import Q
 
 
 class SignUpView(CreateView):
@@ -127,6 +126,21 @@ class CustomUserUpdateView(UpdateView):
         """User only can edit yourself profile"""
         return self.request.user
 
+class FollowView(View):
+    def post(self, request, username, *args, **kwargs):
+        target_user = CustomUser.objects.get(username=username)
+        current_user = request.user
+
+        if current_user.is_following(target_user):
+            messages.success(request,"دیگر شما این کاربر را دنبال نمیکنید")
+            current_user.following.remove(target_user)
+
+        else:
+            messages.success(request,"دنبال کردن کاربر موفق بود")
+            current_user.following.add(target_user)
+
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
 
 class CustomUserListView(ListView):
     model = CustomUser
@@ -136,3 +150,4 @@ class CustomUserListView(ListView):
 
     def get_queryset(self):
         return CustomUser.objects.filter(is_active=True).order_by("-last_login")
+

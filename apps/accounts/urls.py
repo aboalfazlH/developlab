@@ -28,5 +28,6 @@ urlpatterns = [
         name="password_change_done",
     ),
     path("<str:username>/", views.ProfileDetailView.as_view(), name="users-profile"),
+    path("<str:username>/follow/", views.FollowView.as_view(), name="user-follow"),
     path("", views.ProfileDetailView.as_view(), name="user-profile"),
 ]

@@ -39,8 +39,7 @@ class CustomUser(AbstractUser):
         null=True,
         validators=[validators.validate_phone_number],
     )
-    followers = models.ManyToManyField("self")
-    following = models.ManyToManyField("self")
+    following = models.ManyToManyField("self",related_name="followers",symmetrical=False,blank=True)
     # Personal info
     avatar = models.ImageField(
         verbose_name=_("avatar"),
@@ -141,6 +140,15 @@ class CustomUser(AbstractUser):
         from django.urls import reverse
 
         return reverse("users-profile", kwargs={"username": self.username})
+
+
+    def is_following(self, user):
+        return self.following.filter(id=user.id).exists()
+
+    def is_follower(self, user):
+        return self.followers.filter(id=user.id).exists()
+
+
 
     def __str__(self):
         """Str for user model"""
