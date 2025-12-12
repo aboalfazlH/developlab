@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+{% block content %}
+<h2>ایجاد توکن جدید API</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="api_name" class="form-label">نام API</label>
+        <input type="text" id="api_name" name="api_name" class="form-control" placeholder="مثلاً My API" required>
+    </div>
+    <button type="submit" class="btn btn-primary">ایجاد توکن</button>
+</form>
+
+{% if api_token %}
+<hr>
+<h4>توکن شما (فقط یک بار نمایش داده می‌شود)</h4>
+<div class="alert alert-success">
+    <code>{{ api_token }}</code>
+</div>
+<p>لطفاً این توکن را همین حالا ذخیره کنید، بعداً قابل مشاهده نیست.</p>
+{% endif %}
+{% endblock %}
