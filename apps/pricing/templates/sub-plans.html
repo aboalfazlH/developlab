@@ -2,11 +2,37 @@
 {% block title %}
 پلن های اشتراک
 {% endblock title %}
+
 {% block content %}
 
-{% for sub_plan in sub_plans %}
-    <p>{{ sub_plan }}</p>
-    <p>{{ sub_value }}</p>
-{% endfor %}
-    
+<div class="container my-4">
+    <div class="row">
+        {% for sub_plan in sub_plans %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{ sub_plan.plan_name }}
+                        {% if sub_plan.is_most_popular %}
+                            <span class="badge bg-success">پرطرفدار</span>
+                        {% endif %}
+                    </h5>
+                    <p class="card-text"><strong>قیمت:</strong> {{ sub_plan.price }} تومان</p>
+                    <p class="card-text"><strong>ارزش پلن:</strong> {{ sub_plan.value }}</p>
+                    {% if sub_plan.articles %}
+                        <p class="card-text"><strong>مقالات:</strong> {{ sub_plan.articles }}</p>
+                    {% endif %}
+                    {% if sub_plan.questions %}
+                        <p class="card-text"><strong>پرسش‌ها:</strong> {{ sub_plan.questions }}</p>
+                    {% endif %}
+                    {% if sub_plan.private_projects %}
+                        <p class="card-text"><strong>پروژه‌های خصوصی:</strong> {{ sub_plan.private_projects }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
 {% endblock content %}

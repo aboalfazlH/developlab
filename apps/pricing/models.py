@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
+from django.db.models import Count, Max
+
 class SubscriptionPlan(models.Model):
     plan_name = models.CharField(verbose_name="نام پلن")
     real_name = models.CharField(verbose_name="نام پلن")
@@ -12,13 +14,29 @@ class SubscriptionPlan(models.Model):
     articles = models.CharField(verbose_name="وضعیت مقالات", blank=True, null=True)
     questions = models.CharField(verbose_name="وضعیت پرسش ها", blank=True, null=True)
     private_projects = models.CharField(verbose_name="وضعیت پروژه های خصوصی", blank=True, null=True)
+    
+    @property
+    def is_most_popular(self):
+        subscriptions_with_counts = Subscription.objects.values('subscription_plan') \
+            .annotate(user_count=Count('subscription_user'))
+        
+        max_count = subscriptions_with_counts.aggregate(max_users=Max('user_count'))['max_users'] or 0
+        
+        current_count = next(
+            (item['user_count'] for item in subscriptions_with_counts if item['subscription_plan'] == self.id), 
+            0
+        )
+        
+        return current_count == max_count
 
     class Meta:
         verbose_name = "پلن اشتراک"
         verbose_name_plural = "پلن های اشتراک"
-
+    
     def __str__(self):
         return self.plan_name
+
+        
 
 
 class Subscription(models.Model):
@@ -120,3 +138,5 @@ class DiscountCodeUsage(models.Model):
 
     def __str__(self):
         return f"{self.user.username} used {self.discount_code.code}"
+
+

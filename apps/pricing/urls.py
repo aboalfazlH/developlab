@@ -2,8 +2,8 @@ from django.urls import path
 from . import views
 
 
-app_name = "subscription"
+app_name = "pricing"
 
 urlpatterns = [
-    path("", views.SubscriptionPlanListView.as_view(), name="sub-plans"),
+    path("subscription/plans/", views.SubscriptionPlanListView.as_view(), name="sub-plans"),
 ]
