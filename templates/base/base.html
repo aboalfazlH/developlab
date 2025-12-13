@@ -2,35 +2,37 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="fa-IR">
   <head>
-    <!-- Meta -->
+    {% comment %} Meta {% endcomment %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block meta %}{% endblock %}
+    {% block meta %}{% comment %} For meta tags {% endcomment %}{% endblock %}
 
-    <!-- Title -->
+    {% comment %} Title {% endcomment %}
     <title>
       آزمایشگاه توسعه |{% block title %}{% endblock %}
     </title>
 
-    <!-- Favicons -->
+    {% comment %} Favicons {% endcomment %}
     <link rel="icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="icon" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}" />
     <link rel="icon" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}" />
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}" />
     <link rel="manifest" href="{% static 'images/site.webmanifest' %}" />
 
-    <!-- Core CSS -->
+    {% comment %} CSS {% endcomment %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- Highlight.js Theme -->
+    {% comment %} Highlight.js Theme {% endcomment %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
 
-    <!-- Project CSS -->
+    {% comment %} Local CSS {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/header.css' %}" />
 
-    {% block styles %}{% endblock %}
+    {% block styles %}
+    {% comment %} For more Css {% endcomment %}
+    {% endblock %}
   </head>
 
   <body data-theme="dark">
@@ -53,17 +55,17 @@
 
     {% include 'base/footer.html' %}
 
-    <!-- Core JS -->
+    {% comment %} Core JS {% endcomment %}
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-    <!-- Project Scripts -->
+    {% comment %} Project Scripts {% endcomment %}
     <script src="{% static 'js/linkchecker.js' %}"></script>
     <script src="{% static 'js/hidemessage.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 
-    <!-- Select2 Initialization -->
+    {% comment %} Select2 Initialization {% endcomment %}
     <script>
       $(function () {
         $('#id_categories').select2({
@@ -82,7 +84,7 @@
       });
     </script>
 
-    <!-- Highlight.js -->
+    {% comment %} Highlight.js {% endcomment %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/all.min.js"></script>
 
