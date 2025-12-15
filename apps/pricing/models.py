@@ -2,8 +2,12 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
-
+from django.core.validators import FileExtensionValidator
 from django.db.models import Count, Max
+
+def course_thumbnail_upload_path(instance,filename):
+    now = timezone.now()
+    return f"pricing/courses/thumbnails/{now.year:04}{now.month:02}{now.day:02}{now.second:02}/{filename}"
 
 class SubscriptionPlan(models.Model):
     plan_name = models.CharField(verbose_name="نام پلن")
@@ -76,9 +80,42 @@ class Subscription(models.Model):
         return f"{self.subscription_user.get_full_name()} | {self.subscription_plan} | {start} تا {end}"
 
 
+class Course(models.Model):
+    PAID_TYPES = [
+        ('paid', 'تمام پولی'),
+        ('semi_paid', 'نیمه پولی'),
+        ('free', 'رایگان'),
+    ]
+    COURSE_TYPES = [
+        ('basic', 'مقدماتی'),
+        ('advanced', 'پیشرفته'),
+        ('basic2advanced', 'مقدماتی تا پیشرفته'),
+        ('02100', 'صفر تا صد'),
+    ]
+    title = models.CharField(verbose_name="موضوع",max_length=300)
+    slug = models.SlugField(verbose_name="شناسه",unique=True)
+    summary = models.TextField(verbose_name="خلاصه",blank=True,null=True)
+    description = models.TextField(verbose_name="توضیحات",blank=True,null=True)
+    thumbnail = models.ImageField(verbose_name="تصویر بند انگشتی",upload_to=course_thumbnail_upload_path,blank=True,null=True)
+    preview = models.FileField(
+    verbose_name="پیش نمایش",
+    blank=True,
+    null=True,
+    validators=[FileExtensionValidator(
+        allowed_extensions=['MOV','avi','mp4','webm','mkv']
+    )],
+    )
+    paid_type = models.CharField(verbose_name="نوع قیمت دوره",choices=PAID_TYPES)
+    course_type = models.CharField(verbose_name="نوع دوره",choices=COURSE_TYPES)
+    price = models.PositiveIntegerField(verbose_name="قیمت")
+
+    def __str__(self):
+        return self.title
+
 class Product(models.Model):
     PRODUCT_TYPES = [
         ('subscription', 'اشتراک'),
+        ('course', 'دوره ها'),
     ]
     name = models.CharField(max_length=200)
     product_type = models.CharField(max_length=20, choices=PRODUCT_TYPES)
@@ -138,5 +175,4 @@ class DiscountCodeUsage(models.Model):
 
     def __str__(self):
         return f"{self.user.username} used {self.discount_code.code}"
-
 

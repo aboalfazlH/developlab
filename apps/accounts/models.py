@@ -25,7 +25,7 @@ class CustomUser(AbstractUser):
     """CustomUser model"""
 
     def avatar_upload_path(instance, filename):
-        """thumbnail upload path"""
+        """avatar upload path"""
         now = timezone.now()
         return f"auth/avatars/{now.year:04}{now.month:02}{now.day:02}/{filename}"
 
