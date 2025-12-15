@@ -1,125 +1,196 @@
 openapi: 3.0.3
-
 paths:
   /api/articles/:
     get:
       operationId: articles_list
       summary: دریافت جدیدترین مقالات
       parameters:
-        - in: query
-          name: count
-          schema:
-            type: integer
-          description: تعداد مقالات مورد نیاز
-          required: false
+      - in: path
+        name: count
+        schema:
+          type: integer
+        description: تعداد مقالات مورد نیاز
+        required: true
       tags:
-        - articles
+      - articles
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
       responses:
         '200':
-          description: لیست مقالات
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Article'
-
-  /api/articles/{token}/write-article/:
+          description: ''
+  /api/articles/{token}/write-article:
     post:
       operationId: articles_write_article_create
+      description: ساخت مقاله با استفاده از توکن API.
       summary: نوشتن مقاله جدید
       parameters:
-        - in: path
-          name: token
-          schema:
-            type: string
-          required: true
-      tags:
-        - articles
-      requestBody:
+      - in: path
+        name: token
+        schema:
+          type: string
         required: true
+      tags:
+      - articles
+      requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ArticleCreateRequest'
-            examples:
-              sample:
-                value:
-                  title: "نمونه مقاله"
-                  description: "توضیحات مقاله"
-                  slug: "sample-article"
-                  categories: [1, 2]
-                  is_pin: false
-                  is_active: true
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ArticleCreateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ArticleCreateRequest'
+        required: true
       responses:
         '200':
-          description: ایجاد موفق
           content:
             application/json:
-              example:
-                status: 200
-                description: "Article 'نمونه مقاله' created successfully."
-                article_id: 12
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
         '400':
-          description: خطای ورودی
           content:
             application/json:
-              example:
-                status: 400
-                errors:
-                  title: ["This field is required."]
-
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+  /api/json-placeholder/:
+    get:
+      operationId: json_placeholder_retrieve
+      description: این API تعداد مشخصی کاربر و مقاله را به صورت تصادفی تولید می‌کند.
+      summary: ساخت داده‌های تست برای فرانت
+      parameters:
+      - in: query
+        name: articles
+        schema:
+          type: integer
+        description: تعداد مقالات (0 تا 100)
+      - in: query
+        name: lang
+        schema:
+          type: string
+        description: 'زبان تولید دیتا توسط Faker (پیش‌فرض: fa-IR)'
+      - in: query
+        name: users
+        schema:
+          type: integer
+        description: تعداد کاربران (0 تا 100)
+      tags:
+      - json-placeholder
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+                description: Unspecified response body
+          description: ''
 components:
   schemas:
     Article:
       type: object
+      description: Serializer for representing Article objects as JSON.
       properties:
         id:
           type: integer
+          readOnly: true
         title:
           type: string
-        description:
-          type: string
+          title: موضوع
+          maxLength: 110
         thumbnail:
           type: string
           format: uri
           nullable: true
+          title: تصویر بندانگشتی
+        description:
+          type: string
+          readOnly: true
         views:
           type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: بازدید
         author:
           type: string
         write_date:
           type: string
           format: date-time
+          readOnly: true
+          title: تاریخ نوشتن
         is_pin:
           type: boolean
+          title: ویژه
         is_active:
           type: boolean
+          title: فعال
         categories:
           type: string
-
+          readOnly: true
+      required:
+      - author
+      - categories
+      - description
+      - id
+      - title
+      - write_date
     ArticleCreateRequest:
       type: object
       properties:
         title:
           type: string
+          minLength: 1
+          title: موضوع
+          maxLength: 110
         description:
           type: string
+          nullable: true
+          title: توضیحات
         slug:
           type: string
+          minLength: 1
+          title: شناسه
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
         thumbnail:
           type: string
           format: binary
           nullable: true
+          title: تصویر بندانگشتی
         categories:
           type: array
           items:
             type: integer
-        is_pin:
-          type: boolean
-        is_active:
-          type: boolean
+            title: دسته‌بندی‌ها
+          title: دسته‌بندی‌ها
       required:
-        - title
-        - slug
-        - categories
+      - categories
+      - slug
+      - title

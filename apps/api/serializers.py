@@ -35,4 +35,4 @@ class ArticleSerializer(serializers.ModelSerializer):
 class ArticleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ["title", "description", "slug", "thumbnail", "categories", "is_pin", "is_active"]
+        fields = ["title", "description", "slug", "thumbnail", "categories"]

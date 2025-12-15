@@ -2,6 +2,7 @@ from django.views.generic import TemplateView,View
 from apps.accounts.models import CustomUser
 from .models import Category
 from django.http import JsonResponse
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from apps.blog.models import Article
 from apps.qa.models import Question
