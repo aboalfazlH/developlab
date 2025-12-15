@@ -107,10 +107,32 @@ class Course(models.Model):
     )
     paid_type = models.CharField(verbose_name="نوع قیمت دوره",choices=PAID_TYPES)
     course_type = models.CharField(verbose_name="نوع دوره",choices=COURSE_TYPES)
-    price = models.PositiveIntegerField(verbose_name="قیمت")
+    price = models.PositiveIntegerField(verbose_name="قیمت",default=0)
 
     def __str__(self):
         return self.title
+
+
+class Lesson(models.Model):
+    course = models.ForeignKey(Course,on_delete=models.CASCADE,verbose_name="دوره")
+    title = models.CharField(verbose_name="موضوع",max_length=300)
+    slug = models.SlugField(verbose_name="شناسه",unique=True)
+    summary = models.TextField(verbose_name="خلاصه",blank=True,null=True)
+    thumbnail = models.ImageField(verbose_name="تصویر بند انگشتی",upload_to=course_thumbnail_upload_path,blank=True,null=True)
+    video = models.FileField(
+    verbose_name="ویدیو",
+    blank=True,
+    null=True,
+    validators=[FileExtensionValidator(
+        allowed_extensions=['MOV','avi','mp4','webm','mkv']
+    )],
+    )
+    price = models.PositiveIntegerField(verbose_name="قیمت")
+    attached_file = models.FileField(verbose_name="فایل ضمیمه")
+
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
     PRODUCT_TYPES = [
