@@ -177,3 +177,30 @@ class CustomUserFollowersListView(ListView):
         context = super().get_context_data(**kwargs)
         context["users"] = self.profile_user
         return context
+
+
+class CustomUserFollowingListView(ListView):
+    """
+    Display a list of users who follow the desired user.
+    """
+    model = CustomUser
+    template_name = "accounts/users.html"
+    context_object_name = "users"
+    paginate_by = 20
+
+    def get_queryset(self):
+        """
+        Return following of the target user.
+        """
+        self.profile_user = get_object_or_404(
+            CustomUser, username=self.kwargs["username"]
+        )
+        return self.profile_user.following.all()
+
+    def get_context_data(self, **kwargs):
+        """
+        Add profile user to context.
+        """
+        context = super().get_context_data(**kwargs)
+        context["users"] = self.profile_user
+        return context
