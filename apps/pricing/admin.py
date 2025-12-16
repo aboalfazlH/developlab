@@ -18,7 +18,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 
     list_display = ("subscription_plan", "subscription_user", "start_date", "end_date")
     list_filter = ("subscription_plan", "start_date", "end_date")
-    search_fields = ("subscription__user_username", "subscription_user__get_full_name")
+    search_fields = ("subscription_user__username", "subscription_user__get_full_name")
     date_hierarchy = "start_date"
     ordering = ("-end_date",)
     def log_addition(self, request, obj, message):

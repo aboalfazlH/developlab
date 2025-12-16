@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.validators import FileExtensionValidator
 from django.db.models import Count, Max
 
+
 def course_thumbnail_upload_path(instance,filename):
     now = timezone.now()
     return f"pricing/courses/thumbnails/{now.year:04}{now.month:02}{now.day:02}{now.second:02}/{filename}"
@@ -22,12 +23,12 @@ class SubscriptionPlan(models.Model):
     @property
     def is_most_popular(self):
         subscriptions_with_counts = Subscription.objects.values('subscription_plan') \
-            .annotate(user_count=Count('subscription_user'))
+            .annotate(_count=Count('subscription_user'))
         
-        max_count = subscriptions_with_counts.aggregate(max_users=Max('user_count'))['max_users'] or 0
+        max_count = subscriptions_with_counts.aggregate(max_s=Max('_count'))['max_s'] or 0
         
         current_count = next(
-            (item['user_count'] for item in subscriptions_with_counts if item['subscription_plan'] == self.id), 
+            (item['_count'] for item in subscriptions_with_counts if item['subscription_plan'] == self.id), 
             0
         )
         
@@ -108,7 +109,7 @@ class Course(models.Model):
     paid_type = models.CharField(verbose_name="نوع قیمت دوره",choices=PAID_TYPES)
     course_type = models.CharField(verbose_name="نوع دوره",choices=COURSE_TYPES)
     price = models.PositiveIntegerField(verbose_name="قیمت",default=0)
-
+    teacher = models.ForeignKey("accounts.CustomUser",on_delete=models.CASCADE,verbose_name="مدرس")
     def __str__(self):
         return self.title
 
@@ -196,5 +197,5 @@ class DiscountCodeUsage(models.Model):
         unique_together = ('discount_code', 'user')
 
     def __str__(self):
-        return f"{self.user.username} used {self.discount_code.code}"
+        return f"{self.user.name} used {self.discount_code.code}"
 
