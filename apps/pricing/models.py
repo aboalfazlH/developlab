@@ -90,7 +90,7 @@ class Course(models.Model):
         ('basic', 'مقدماتی'),
         ('advanced', 'پیشرفته'),
         ('basic2advanced', 'مقدماتی تا پیشرفته'),
-        ('02100', 'صفر تا صد'),
+        ('one2hundred', 'صفر تا صد'),
     ]
     title = models.CharField(verbose_name="موضوع",max_length=300)
     slug = models.SlugField(verbose_name="شناسه",unique=True)

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from apps.core.admin_site import admin_site
 from .models import (
     Subscription, 
     SubscriptionPlan, 
@@ -6,10 +7,12 @@ from .models import (
     DiscountCodeUsage, 
     DiscountItem, 
     Product,
+    Course,
+    Lesson
 )
 
 
-@admin.register(Subscription)
+@admin.register(Subscription,site=admin_site)
 class SubscriptionAdmin(admin.ModelAdmin):
     """Admin View for Subscription"""
 
@@ -25,7 +28,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(SubscriptionPlan)
+@admin.register(SubscriptionPlan,site=admin_site)
 class SubscriptionPlanAdmin(admin.ModelAdmin):
     """Admin View for SubscriptionPlan"""
 
@@ -41,7 +44,7 @@ class SubscriptionPlanAdmin(admin.ModelAdmin):
         pass
 
 
-@admin.register(Product)
+@admin.register(Product,site=admin_site)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'product_type', 'price')
     list_filter = ('product_type',)
@@ -63,7 +66,7 @@ class DiscountItemInline(admin.TabularInline):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(DiscountCode)
+@admin.register(DiscountCode,site=admin_site)
 class DiscountCodeAdmin(admin.ModelAdmin):
     list_display = ('code', 'active', 'created_at', 'expires_at')
     inlines = [DiscountItemInline]
@@ -74,7 +77,7 @@ class DiscountCodeAdmin(admin.ModelAdmin):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(DiscountCodeUsage)
+@admin.register(DiscountCodeUsage,site=admin_site)
 class DiscountCodeUsageAdmin(admin.ModelAdmin):
     list_display = ('discount_code', 'user', 'used_at')
     search_fields = ('discount_code__code', 'user__username')
@@ -85,4 +88,23 @@ class DiscountCodeUsageAdmin(admin.ModelAdmin):
         pass
     def log_deletion(self, request, obj, object_repr):
         pass
+
+class LessonAdmin(admin.ModelAdmin):
+    def log_addition(self, request, obj, message):
+        pass
+    def log_change(self, request, obj, message):
+        pass
+    def log_deletion(self, request, obj, object_repr):
+        pass
     
+
+@admin.register(Course,site=admin_site)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ("title","slug","paid_type","course_type","price")
+    list_editable = ("paid_type","course_type")
+    def log_addition(self, request, obj, message):
+        pass
+    def log_change(self, request, obj, message):
+        pass
+    def log_deletion(self, request, obj, object_repr):
+        pass
