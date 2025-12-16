@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import ApiModel
+from apps.core.admin_site import admin_site
 
-@admin.register(ApiModel)
+
+@admin.register(ApiModel,site=admin_site)
 class ApiModelAdmin(admin.ModelAdmin):
     '''Admin View for ApiModel'''
 

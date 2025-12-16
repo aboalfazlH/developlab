@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import Question, Answer
+from apps.core.admin_site import admin_site
 
-@admin.register(Question)
+
+@admin.register(Question,site=admin_site)
 class QuestionAdmin(admin.ModelAdmin):
     """Admin View for Question"""
 
@@ -64,7 +66,7 @@ class QuestionAdmin(admin.ModelAdmin):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(Answer)
+@admin.register(Answer,site=admin_site)
 class AnswerAdmin(admin.ModelAdmin):
     """Admin View for Answer"""
 

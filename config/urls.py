@@ -7,10 +7,11 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+from apps.core.admin_site import admin_site
 
 
 django_urls = [
-    path("admin/", admin.site.urls),
+    path("admin/", admin_site.urls),
 ]
 third_party_urls = [
     path("select2/", include("django_select2.urls")),
