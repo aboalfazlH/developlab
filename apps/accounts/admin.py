@@ -3,9 +3,9 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, ProfileLink
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .actions import actions as user_actions
+from apps.core.admin_site import admin_site
 
-
-@admin.register(CustomUser)
+@admin.register(CustomUser,site=admin_site)
 class CustomUserAdmin(UserAdmin):
     """Admin View for CustomUser"""
 
@@ -122,7 +122,7 @@ class CustomUserAdmin(UserAdmin):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(ProfileLink)
+@admin.register(ProfileLink,site=admin_site)
 class ProfileLinkAdmin(admin.ModelAdmin):
     '''Admin View for ProfileLink'''
 

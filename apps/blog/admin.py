@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib import admin
 from .models import Article, ArticleComment
 from django import forms
-
+from apps.core.admin_site import admin_site
 
 class ArticleAdminForm(forms.ModelForm):
     class Meta:
@@ -23,7 +23,7 @@ class ArticleAdminForm(forms.ModelForm):
     def log_deletion(self, request, obj, object_repr):
         pass
 
-@admin.register(Article)
+@admin.register(Article,site=admin_site)
 class ArticleAdmin(admin.ModelAdmin):
     """Admin View for Article"""
 
@@ -130,7 +130,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(ArticleComment)
+@admin.register(ArticleComment,site=admin_site)
 class ArticleCommentAdmin(admin.ModelAdmin):
     list_display = ("id",)
     search_fields = ("id",)
