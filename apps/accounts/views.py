@@ -151,3 +151,29 @@ class CustomUserListView(ListView):
     def get_queryset(self):
         return CustomUser.objects.filter(is_active=True).order_by("-last_login")
 
+
+class CustomUserFollowersListView(ListView):
+    """
+    Display a list of users who follow the given user.
+    """
+    model = CustomUser
+    template_name = "accounts/users.html"
+    context_object_name = "users"
+    paginate_by = 20
+
+    def get_queryset(self):
+        """
+        Return followers of the target user.
+        """
+        self.profile_user = get_object_or_404(
+            CustomUser, username=self.kwargs["username"]
+        )
+        return self.profile_user.followers.all()
+
+    def get_context_data(self, **kwargs):
+        """
+        Add profile user to context.
+        """
+        context = super().get_context_data(**kwargs)
+        context["users"] = self.profile_user
+        return context

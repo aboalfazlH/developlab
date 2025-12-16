@@ -29,5 +29,6 @@ urlpatterns = [
     ),
     path("<str:username>/", views.ProfileDetailView.as_view(), name="users-profile"),
     path("<str:username>/follow/", views.FollowView.as_view(), name="user-follow"),
+    path("<str:username>/followers/", views.CustomUserFollowersListView.as_view(), name="users"),
     path("", views.ProfileDetailView.as_view(), name="user-profile"),
 ]
