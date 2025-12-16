@@ -170,12 +170,14 @@ class CustomUserFollowersListView(ListView):
         )
         return self.profile_user.followers.all()
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self,**kwargs):
         """
         Add profile user to context.
         """
         context = super().get_context_data(**kwargs)
         context["users"] = self.profile_user
+        context["user"] = self.request.user
+        context["has_followers"] = True
         return context
 
 
@@ -203,4 +205,6 @@ class CustomUserFollowingListView(ListView):
         """
         context = super().get_context_data(**kwargs)
         context["users"] = self.profile_user
+        context["user"] = self.request.user
+        context["has_following"] = True
         return context
