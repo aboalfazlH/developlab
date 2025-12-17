@@ -170,6 +170,22 @@ class ArticlePinView(LoginRequiredMixin, View):
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
+class ArticleVerifyView(LoginRequiredMixin, View):
+    """
+    ویو برای اینکه ابر کاربر بتونه مقالات رو تائید کنه
+    """
+    def post(self, request, slug, *args, **kwargs):
+        article = get_object_or_404(Article, slug=slug)
+        if not request.user.is_superuser:
+            # فقط ابرکاربر
+            return HttpResponseForbidden("شما اجازه تائید کردن مقاله را ندارید.❌")
+        
+        article.verify()
+        # متد verify خودش save میکنه نیازی به صدا زدن متد سیو نیست
+        messages.success(self.request,"مقاله تائید شد✅")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
 
 class ArticleFilterWithCategory(ListView):
     """Filter articles with category"""
