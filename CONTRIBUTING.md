@@ -29,8 +29,9 @@ Copy `.env.example` to `.env` and apply your changes.
 git checkout -b 'your-branch-name'
 ```
 
-> Choose a clear branch name using a mix of PascalCase and kebab-case, e.g. `Fix-Login-Bug` or `Add-User-Profile.` 3. Work on the project
+> Choose a clear branch name using a mix of PascalCase and kebab-case, e.g. `Fix-Login-Bug` or `Add-User-Profile.` 
 
+3. Work on the project
 ```bash
 git add .
 git commit -m "Short description of changes"
