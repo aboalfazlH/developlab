@@ -1,5 +1,5 @@
 from django.views.generic import ListView
-from .models import Subscription,SubscriptionPlan
+from .models import SubscriptionPlan,Course
 
 
 class SubscriptionPlanListView(ListView):

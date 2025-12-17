@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% load follow_tags %} {# حتماً follow_tags.py تو templatetags باشه #}
+{% load follow_tags %}
 
 {% block title %}پروفایل {{ profile.username }}{% endblock title %}
 
@@ -35,12 +35,12 @@
             <p class="profile-phone-number">{{ profile.public_phone_number }}</p>
             {% endif %}
             <div class="profile-follow">
-                <span class="badge bg-primary me-1">
+                <a href="{% url 'followers' profile.username %}" class="badge bg-primary me-1">
                     دنبال کنندگان: {{ profile.followers.count }}
-                </span>
-                <span class="badge bg-secondary">
+                </a>
+                <a href="{% url 'following' profile.username %}" class="badge bg-secondary">
                     دنبال‌شوندگان: {{ profile.following.count }}
-                </span>
+                </a>
             </div>
 
             {% if user.is_authenticated and user != profile %}

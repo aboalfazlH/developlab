@@ -1,9 +1,24 @@
 {% extends "base/base.html" %}
 {% load static %}
-
+{% block title %}
+{% if has_following %}
+دنبال شوندگان {{ user }}
+{% elif has_followers %}
+دنبال کنندگان {{ user }}
+{% else %}
+کاربران
+{% endif %}
+{% endblock title %}
 {% block content %}
 <div class="container py-4">
-    <h2 class="mb-4">کاربران</h2>
+    <h2 class="mb-4">
+    کاربران
+    {% if has_following %}
+    دنبال شونده توسط {{ user }}
+    {% elif has_followers %}
+    دنبال کننده {{ user }}
+    {% endif %}
+    </h2>
     
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for user in page_obj.object_list %}

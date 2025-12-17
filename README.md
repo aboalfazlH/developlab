@@ -1,6 +1,8 @@
 # develop lab website | وب سایت آزمایشگاه توسعه
 
 ## English Version
+---
+[persian version](#نسخه-فارسی)
 
 A website with features for developers, including Q&A, blog, Git repository, collaboration between developers, and more.
 
@@ -51,6 +53,8 @@ A website with features for developers, including Q&A, blog, Git repository, col
 ---
 
 ## نسخه فارسی
+---
+[نسخه انگلیسی](#english-version)
 
 یک وبسایت با امکاناتی برای برنامه نویسان. اعم پرسش و پاسخ، بلاگ، مخزن گیت، مشارکت بین برنامه نویسان و چیزهای دیگر
 
@@ -69,8 +73,11 @@ A website with features for developers, including Q&A, blog, Git repository, col
 ### ابزارهای استفاده شده
 
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
 ![Git](https://img.shields.io/badge/Git-F05033?style=for-the-badge&logo=git&logoColor=white)
+
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 ### ابزارهای مورد نیاز

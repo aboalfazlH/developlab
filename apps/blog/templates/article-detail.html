@@ -8,8 +8,8 @@
     margin:0 10px;
     border-radius:10px;
     direction:ltr;
-    background-color:black;
-    color:white;
+    border:1px solid #ddd;
+    background-color:#f8f9fa;
 }
 </style>
 {% endblock styles %}
@@ -62,7 +62,7 @@
            class="btn btn-outline-danger btn-sm">
             حذف مقاله
         </a>
-
+        {% if user.is_superuser %}
         <form action="{% url 'blog:article-pin' article.slug %}" 
               method="post" class="d-inline">
             {% csrf_token %}
@@ -70,6 +70,16 @@
                 {% if article.is_pin %}برداشتن سنجاق{% else %}سنجاق کردن{% endif %}
             </button>
         </form>
+        {% if not article.is_verify %}
+        <form action="{% url 'blog:article-verify' article.slug %}" 
+              method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondery btn-sm">
+                تائید مقاله
+            </button>
+        </form>
+        {% endif %}
+        {% endif %}
 
     </div>
     {% endif %}

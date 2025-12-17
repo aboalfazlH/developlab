@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block title %}
-صفحه عنوان
+جستجو "{{ query }}"
 {% endblock title %}
 {% block meta %}
 {% endblock meta %}
@@ -28,7 +28,7 @@
 </ul>
 <h2>سوال ها:</h2>
 <ul>
-{% for question in results.question %}
+{% for question in results.questions %}
     <a href="{{ question.get_absolute_url }}"><li>{{ question.name }}</li></a>
 {% empty %}
     <li>هیچ سوالی پیدا نشد.</li>
