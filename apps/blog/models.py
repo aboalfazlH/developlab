@@ -11,37 +11,52 @@ from apps.accounts.models import CustomUser
 
 class Article(models.Model):
     """Model representing an article."""
-
+    # -----------------
+    # Important methods
+    # -----------------
     # File upload path
     def thumbnail_upload_path(instance, filename):
         """Generate upload path for thumbnail images."""
         now = timezone.now()
-        return f"blog/thumbnails/{now.year}{now.month}{now.day}/{filename}"
+        return f"blog/thumbnails/{now.year:04}{now.month:02}{now.day:02}/{filename}"
 
+    
+    # -----------------
     # Fields
+    # -----------------
+    # Texts
     title = models.CharField(max_length=110, verbose_name="موضوع")
+    short_description = models.CharField(max_length=110, verbose_name="توضیحات کوتاه",blank=True,null=True)
+    description = models.TextField(verbose_name="توضیحات", blank=True, null=True)
+
+    slug = models.SlugField(
+        verbose_name="شناسه",
+        unique=True,
+    )
+
+    views = models.PositiveIntegerField(default=0, verbose_name="بازدید ها")
+
+    # Files
     thumbnail = models.ImageField(
         verbose_name="تصویر بندانگشتی",
         upload_to=thumbnail_upload_path,
         blank=True,
         null=True,
     )
-    short_description = models.CharField(max_length=110, verbose_name="توضیحات کوتاه",blank=True,null=True)
-    description = models.TextField(verbose_name="توضیحات", blank=True, null=True)
-    views = models.PositiveIntegerField(default=0, verbose_name="بازدید")
 
+    # Booleans
     is_active = models.BooleanField(verbose_name="فعال", default=True)
     is_verify = models.BooleanField(verbose_name="تائید شده", default=False)
     is_pin = models.BooleanField(verbose_name="ویژه", default=False)
 
+    # Relations
     author = models.ForeignKey(
-        CustomUser, verbose_name="نویسنده", on_delete=models.CASCADE
+        CustomUser, verbose_name="نویسنده", on_delete=models.CASCADE)
+    
+    categories = models.ManyToManyField(
+        Category, related_name="articles", verbose_name="دسته‌بندی‌ها"
     )
-    slug = models.SlugField(
-        verbose_name="شناسه",
-        unique=True,
-    )
-
+    # Date&times
     write_date = models.DateTimeField(verbose_name="تاریخ نوشتن", auto_now_add=True)
     update_date = models.DateTimeField(verbose_name="تاریخ تغییر", auto_now=True)
     delete_date = models.DateTimeField(verbose_name="تاریخ حذف", blank=True, null=True)
@@ -49,11 +64,11 @@ class Article(models.Model):
         verbose_name="تاریخ تائید", blank=True, null=True
     )
 
-    categories = models.ManyToManyField(
-        Category, related_name="articles", verbose_name="دسته‌بندی‌ها"
-    )
+    
 
-    # Meta options
+    # -----------------
+    # Meta
+    # -----------------
     class Meta:
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
@@ -71,12 +86,13 @@ class Article(models.Model):
             return "فعال❌"
         return "غیر فعال"
 
+
     @property
     def most_visited(self):
         """Return True if the article has more than 1000 views."""
         return self.views >= 1000
 
-    # methods
+    # Methods
     def soft_delete(self):
         """Soft delete the article by marking it inactive."""
         self.is_active = False
@@ -117,14 +133,17 @@ class Article(models.Model):
 
         super().save(*args, **kwargs)
 
-    # magic methods
+    # Magic methods
     def __str__(self):
         return self.title
 
 
 class ArticleComment(BaseComment):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="مقاله")
-    comment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True,related_name='replies')
+    """Model representing an article comments."""
+    # -----------------
+    # Fields
+    # -----------------
+    # Date&times
     write_date = models.DateTimeField(
         auto_now_add=True,
     )
@@ -133,11 +152,13 @@ class ArticleComment(BaseComment):
         default=False,
     )
     is_pin = models.BooleanField(default=False)
-
-    @property
-    def is_reply(self):
-        return self.comment is not None
-
+    # Relations
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name="مقاله")
+    comment = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True,related_name='replies')
+    
+    # -----------------
+    # Meta
+    # -----------------
     class Meta:
         verbose_name = "نظر"
         verbose_name_plural = "نظرات"
@@ -148,6 +169,11 @@ class ArticleComment(BaseComment):
                 name="unique_pinned_comment_per_article"
             )
         ]
+    
+    # Properties
+    @property
+    def is_reply(self):
+        return self.comment is not None
     
     def pin(self):
         """
@@ -164,5 +190,6 @@ class ArticleComment(BaseComment):
             self.is_pin = True
             self.save(update_fields=["is_pin"])
 
+    # Magic methods
     def __str__(self):
         return super().__str__()
