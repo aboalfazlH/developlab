@@ -79,6 +79,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
             )
 
         return response
+        # TODO: هماهنگی با اشتراک
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         user_subscription_plan = self.request.user.subscription_plan
