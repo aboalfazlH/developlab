@@ -81,8 +81,21 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return response
     def form_valid(self, form):
         form.instance.author = self.request.user
+        user_subscription_plan = self.request.user.subscription_plan
+        today = now().date()
+        articles_today = Article.objects.filter(
+            author=self.request.user, write_date__date=today
+        )
+
+        match user_subscription_plan:
+            # پلن برنز و نقره فقط تاثیر روی تعداد دارد.
+            case "gold":
+                if not articles_today.exists():
+                    form.instance.is_pin = True
+            # TODO:Add other plans
+        
         return super().form_valid(form)
-    # TODO: if user has subscribe can write 50 article and 1 article in day pin
+    
     
 
 class ArticleUpdateView(UpdateView):

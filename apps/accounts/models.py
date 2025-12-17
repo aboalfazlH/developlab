@@ -140,7 +140,11 @@ class CustomUser(AbstractUser):
         from django.urls import reverse
 
         return reverse("users-profile", kwargs={"username": self.username})
-
+    
+    @property
+    def subscription_plan(self):
+        subscription = Subscription.objects.get(subscription_user=self)
+        return subscription.subscription_plan.real_name
 
     def is_following(self, user):
         return self.following.filter(id=user.id).exists()
