@@ -4,12 +4,28 @@
 {% endblock title %}
 
 {% block styles %}
+<style>
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+</style>
 {% endblock styles %}
 
 {% block content %}
-<h3>این صفحه وجود ندارد،تغییر کرده یا از دسترس خارج شده</h3>
-<p>
-ابتدا درستی مسیر را چک کنید،سپس اخبار رو چک کنید و در اخر با پشتیبانی تماس بگیرید
-</p>
-<a href="{% url 'core:home-page' %}">بازگشت به صفحه اصلی</a>
+<div class="page-header">
+    <h2 class="error">404</h2>
+    <h3 class="error">این صفحه وجود ندارد،تغییر کرده یا از دسترس خارج شده</h3>
+    <p>
+        ابتدا درستی مسیر را چک کنید،سپس اخبار رو چک کنید و در اخر با پشتیبانی تماس بگیرید
+    </p>
+    <a href="{% url 'core:home-page' %}">بازگشت به صفحه اصلی</a>
+</div>
 {% endblock content %}

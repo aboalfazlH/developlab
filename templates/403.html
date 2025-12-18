@@ -4,11 +4,26 @@
 {% endblock title %}
 
 {% block styles %}
+<style>
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.error {
+    color: red;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+</style>
 {% endblock styles %}
 
 {% block content %}
-<h3>این صفحه شما را مسدود کرده</h3>
-<p>
-اگر به نظرتان این اشتباه است،به پشتیبانی پیام دهید
-</p>
+<div class="page-header">
+    <h2 class="error">403</h2>
+    <h3 class="header">این صفحه شما را مسدود کرده</h3>
+    <p>
+    اگر به نظرتان این اشتباه است،به پشتیبانی پیام دهید
+    </p>
+</div>
 {% endblock content %}
