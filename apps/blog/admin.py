@@ -132,10 +132,10 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ArticleComment,site=admin_site)
 class ArticleCommentAdmin(admin.ModelAdmin):
-    list_display = ("article", "author_name", "is_active", "write_date")
-    search_fields = ("article__title", "author_name", "content")
+    list_display = ("article","user", "is_active", "write_date")
+    search_fields = ("article__title","user", "content")
     list_filter = ("is_active", "write_date")
-    readonly_fields = ("write_date", "update_date")
+    readonly_fields = ("write_date",)
     autocomplete_fields = ("article",)
     ordering = ("-write_date",)
     

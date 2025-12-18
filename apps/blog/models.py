@@ -137,7 +137,6 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-
 class ArticleComment(BaseComment):
     """Model representing an article comments."""
     # -----------------
