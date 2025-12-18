@@ -132,8 +132,31 @@ class ArticleAdmin(admin.ModelAdmin):
 
 @admin.register(ArticleComment,site=admin_site)
 class ArticleCommentAdmin(admin.ModelAdmin):
-    list_display = ("id",)
-    search_fields = ("id",)
+    list_display = ("article", "author_name", "is_active", "write_date")
+    search_fields = ("article__title", "author_name", "content")
+    list_filter = ("is_active", "write_date")
+    readonly_fields = ("write_date", "update_date")
+    autocomplete_fields = ("article",)
+    ordering = ("-write_date",)
+    
+    @admin.action(description="فعال کردن کامنت های انتخاب شده")
+    def make_active(modeladmin, request, queryset):
+        updated = queryset.update(is_active=True)
+        messages.success(request, f"{updated} کامنت فعال شد.")
+    
+    @admin.action(description="غیرفعال کردن کامنت های انتخاب شده")
+    def make_inactive(modeladmin, request, queryset):
+        updated = queryset.update(is_active=False)
+        messages.success(request, f"{updated} کامنت غیرفعال شد.")
+    
+    @admin.action(description="حذف نرم کامنت های انتخاب شده")
+    def soft_delete(modeladmin, request, queryset):
+        for obj in queryset:
+            obj.soft_delete()
+        count = len(queryset)
+        messages.success(request, f"حذف نرم {count} کامنت موفق بود")
+    actions = ["make_active", "make_inactive", "soft_delete"]
+
     def log_addition(self, request, obj, message):
         pass
     def log_change(self, request, obj, message):
