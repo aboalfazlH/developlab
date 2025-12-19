@@ -17,7 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from apps.core.models import Category
 from .models import Article, ArticleComment
 from .forms import ArticleForm
-
+from apps.pricing.models import Subscription
 
 class ArticleListView(ListView):
     """Articles list"""
@@ -83,11 +83,12 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        user_subscription_plan = self.request.user.subscription_plan
+        user_subscription_plan = Subscription.objects.get(subscription_user=self.request.user).subcription_plan
         today = now().date()
         articles_today = Article.objects.filter(
             author=self.request.user, write_date__date=today
         )
+        
 
         match user_subscription_plan:
             # پلن برنز و نقره فقط تاثیر روی تعداد دارد.
