@@ -1,7 +1,7 @@
 # develop lab website | وب سایت آزمایشگاه توسعه
 
 ## English Version
----
+
 [persian version](#نسخه-فارسی)
 
 A website with features for developers, including Q&A, blog, Git repository, collaboration between developers, and more.
@@ -53,7 +53,7 @@ A website with features for developers, including Q&A, blog, Git repository, col
 ---
 
 ## نسخه فارسی
----
+
 [نسخه انگلیسی](#english-version)
 
 یک وبسایت با امکاناتی برای برنامه نویسان. اعم پرسش و پاسخ، بلاگ، مخزن گیت، مشارکت بین برنامه نویسان و چیزهای دیگر
