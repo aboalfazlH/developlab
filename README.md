@@ -8,15 +8,13 @@ A website with features for developers, including Q&A, blog, Git repository, col
 
 ### Feature List
 
-🔃: In Progress; ✅: Completed; ❌: Cancelled
-
-- Blog ✅
-- User System ✅
-- Login and Registration with GitHub ✅
-- Q&A ✅
-- Git Repository Creation 🔃
-- Collaboration System and User Projects 🔃
-- API Creation ✅
+- [X] Blog
+- [X] User System 
+- [X] Login and Registration with GitHub 
+- [X] Q&A
+- [ ] Git Repository Creation 
+- [ ] Collaboration System and User Projects 
+- [X] API Creation
 
 ### Tools Used
 
@@ -60,15 +58,13 @@ A website with features for developers, including Q&A, blog, Git repository, col
 
 ### لیست قابلیت ها
 
-🔃:در حال انجام؛ ✅:انجام شده؛ ❌:لغو شده
-
-- وبلاگ ✅
-- سیستم کاربر ✅
-- ورود و ثبت نام با GitHub ✅
-- پرسش و پاسخ ✅
-- ساخت مخزن گیت 🔃
-- سیستم مشارکت و پروژه کاربران 🔃
-- ساخت API ✅
+- [X] وبلاگ 
+- [X] سیستم کاربر 
+- [X] ورود و ثبت نام با GitHub 
+- [X] پرسش و پاسخ 
+- [ ] ساخت مخزن گیت 
+- [ ] سیستم مشارکت و پروژه کاربران 
+- [X] ساخت API 
 
 ### ابزارهای استفاده شده
 
