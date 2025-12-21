@@ -93,13 +93,13 @@ class FrontFakeObjectsApi(APIView):
         return value, None
 
     def get(self, request):
-        lang = request.GET.get("lang") or "fa-IR"
+        lang = request.GET.get("lang") or "fa_IR"
         fake = Faker(lang)
 
         articles, err_articles = self.validate_param(
             request.GET.get("articles"), "articles"
         )
-        users, err_users = self.validate_param(request.GET.get("users"), "users")
+        users, err_users = self.validate_param(request.GET.get("users").rstrip("/"), "users")
 
         if err_articles or err_users:
             return Response(

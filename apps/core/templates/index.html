@@ -47,7 +47,7 @@
         </div>
         {% empty %}
         <p class="text-muted">پرسشی وجود ندارد.</p>
-        {% endfor %}
+        {% endfor %}    
     </div>
 
     <h2 class="mb-3">پلن‌های اشتراک</h2>
@@ -56,9 +56,8 @@
         <div class="col-md-4">
             <div class="card h-100 border-primary shadow-sm">
                 <div class="card-body">
-                    <h4 class="card-title">{{ p.name }}</h4>
-                    <p class="card-text">{{ p.description }}</p>
-                    <p class="fw-bold">قیمت: {{ p.value }} تومان</p>
+                    <h4 class="card-title">{{ p.plan_name }}</h4>
+                    <p class="fw-bold">قیمت: {{ p.price }} تومان</p>
                 </div>
             </div>
         </div>
