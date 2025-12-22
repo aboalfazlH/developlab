@@ -16,10 +16,8 @@ class SubscriptionPlan(models.Model):
     price = models.PositiveIntegerField(verbose_name="قیمت", default=0)
     value = models.PositiveIntegerField(verbose_name="ارزش پلن", default=0)
     is_active = models.BooleanField(default=True, verbose_name="فعال")
-    articles = models.CharField(verbose_name="وضعیت مقالات", blank=True, null=True)
-    questions = models.CharField(verbose_name="وضعیت پرسش ها", blank=True, null=True)
-    private_projects = models.CharField(verbose_name="وضعیت پروژه های خصوصی", blank=True, null=True)
-    
+    description = models.TextField(blank=True,null=True)
+
     @property
     def is_most_popular(self):
         subscriptions_with_counts = Subscription.objects.values('subscription_plan') \
@@ -174,7 +172,6 @@ class DiscountItem(models.Model):
     discount_percent = models.PositiveIntegerField()
 
     def applies_to(self, item):
-        """چک می‌کند که این تخفیف روی این آیتم اعمال می‌شود یا نه"""
         if self.content_object.id == item.id:
             return True
         if self.content_object is None and self.min_price and getattr(item, 'price', 0) >= self.min_price:
