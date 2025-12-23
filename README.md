@@ -18,12 +18,22 @@ A website with features for developers, including Q&A, blog, Git repository, col
 
 ### Tools Used
 
+##Backend
+
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
+![Select2](https://img.shields.io/badge/Select2-370080?style=for-the-badge&logo=django&logoColor=white)
+
+![DRF](https://img.shields.io/badge/DRF-red?style=for-the-badge&logo=django&logoColor=white)
+
+
 ![Git](https://img.shields.io/badge/Git-F05033?style=for-the-badge&logo=git&logoColor=white)
+
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-### Requirements
+### PreRequirements
 
 - Python 3.9 or higher
 - pip (for installing packages)
@@ -76,7 +86,7 @@ A website with features for developers, including Q&A, blog, Git repository, col
 
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
 
-### ابزارهای مورد نیاز
+### پیش نیاز ها
 
 - پایتون 3.9 و بالاتر
 - pip (برای نصب پکیج‌ها)
