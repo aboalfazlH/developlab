@@ -12,7 +12,7 @@ def course_thumbnail_upload_path(instance,filename):
 
 class SubscriptionPlan(models.Model):
     plan_name = models.CharField(verbose_name="نام پلن")
-    real_name = models.CharField(verbose_name="نام پلن")
+    real_name = models.CharField(verbose_name="نام واقعی پلن")
     price = models.PositiveIntegerField(verbose_name="قیمت", default=0)
     value = models.PositiveIntegerField(verbose_name="ارزش پلن", default=0)
     is_active = models.BooleanField(default=True, verbose_name="فعال")
