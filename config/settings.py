@@ -169,3 +169,5 @@ SPECTACULAR_SETTINGS = {
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
