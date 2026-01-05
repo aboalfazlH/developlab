@@ -70,16 +70,19 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         articles_today = Article.objects.filter(
             author=request.user, write_date__date=today
         )
-        if articles_today.count() >= 10 and not (
-            request.user.is_superuser
-            or request.user.groups.filter(name="Writers").exists()
-        ):
-            return HttpResponseForbidden(
-                "شما نمی‌توانید بیش از ۱۰ مقاله در روز بنویسید."
-            )
+        user_subscription = Subscription.objects.filter(subscription_user=self.request.user).first()
+        user_subscription_plan = user_subscription.subscription_plan if user_subscription is not None else ""
+        if articles_today.count >= 15 and not user_subscription_plan.real_name == "bronze":
+            
+            if articles_today.count() >= 10 and not (
+                request.user.is_superuser
+                or request.user.groups.filter(name="نویسندگان").exists()
+            ):
+                return HttpResponseForbidden(
+                    "شما نمی‌توانید بیش از ۱۰ مقاله در روز بنویسید."
+                )
 
-        return response
-        # TODO: هماهنگی با اشتراک
+            return response
 
     def form_valid(self, form):
         form.instance.author = self.request.user
