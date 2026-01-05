@@ -6,12 +6,11 @@
 <h2 class="mb-3">سوالت رو عوض کن!</h2>
 <form action="" method="post" enctype="multipart/form-data" class="container mt-3">
     {% csrf_token %}
-    <label for="question_description">متن سوال</label>
-    <textarea id="question_description" name="question_description" class="quill-editor">{{ form.question_description.value }}</textarea>
-    <div id="editor-question" style="min-height: 200px;"></div>
     {{ form.name }}
     {{ form.slug }}
     {{ form.help_image }}
+    <textarea id="question_description" name="question_description" class="quill-editor">{{ form.question_description.value }}</textarea>
+    <div id="editor-question" style="min-height: 200px;"></div>
     {{ form.categories }}
     <button type="submit" class="btn btn-success mt-2">تغییر سوال</button>
 </form>

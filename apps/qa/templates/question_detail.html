@@ -75,8 +75,9 @@
         <form action="{% url 'qa:answer-create' question.slug %}" method="post" class="mb-4">
             {% csrf_token %}
             <label for="answer_new">پاسخ جدید</label>
+            <div id="editor-answer-new" style="min-height: 150px;">
             <textarea id="answer_new" name="answer_description" class="quill-editor" rows="3"></textarea>
-            <div id="editor-answer-new" style="min-height: 150px;"></div>
+            </div>
             <button type="submit" class="btn btn-primary btn-sm mt-2">ارسال پاسخ</button>
         </form>
     </div>

@@ -6,12 +6,12 @@
 <h2 class="mb-3">سوال بپرس</h2>
 <form action="" method="post" enctype="multipart/form-data" class="container mt-3">
     {% csrf_token %}
-    <label for="question_description_new">متن سوال</label>
-    <textarea id="question_description_new" name="question_description" class="quill-editor">{{ form.question_description.value }}</textarea>
-    <div id="editor-question-new" style="min-height: 200px;"></div>
     {{ form.name }}
     {{ form.slug }}
     {{ form.help_image }}
+    <div id="editor-question-new" style="min-height: 200px;">
+    <textarea id="question_description_new" name="question_description" class="quill-editor">{{ form.question_description.value }}</textarea>
+    </div>
     {{ form.categories }}
     <button type="submit" class="btn btn-success mt-2">ثبت سوال</button>
 </form>
