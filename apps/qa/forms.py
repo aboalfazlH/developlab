@@ -8,13 +8,15 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ("name", "help_image", "question_description", "slug", "categories")
         widgets = {
+            "name":forms.TextInput(attrs={"class":"form-control mb-3"}),
+            "slug":forms.TextInput(attrs={"class":"form-control mb-3"}),
             "question_description": forms.Textarea(
                 attrs={
                     "class": "quill-editor",
                     "style": "display:none;",
                 }
             ),
-            "categories": forms.SelectMultiple(attrs={"class": "form-select"}),  # اگر میخواید جایگزین Select2 شود
+            "categories": forms.SelectMultiple(attrs={"class": "form-select"}),
         }
 
     def __init__(self, *args, **kwargs):
