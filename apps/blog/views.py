@@ -83,7 +83,9 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        user_subscription_plan = Subscription.objects.get(subscription_user=self.request.user).subcription_plan
+        user_subscription = Subscription.objects.filter(subscription_user=self.request.user).first()
+        user_subscription_plan = user_subscription.subscription_plan if user_subscription is not None else ""
+
         today = now().date()
         articles_today = Article.objects.filter(
             author=self.request.user, write_date__date=today
@@ -96,7 +98,9 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
                 if not articles_today.exists():
                     form.instance.is_pin = True
             # TODO:Add other plans
-        
+            case "":
+                pass
+                
         return super().form_valid(form)
     
     
