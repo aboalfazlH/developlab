@@ -72,17 +72,32 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         )
         user_subscription = Subscription.objects.filter(subscription_user=self.request.user).first()
         user_subscription_plan = user_subscription.subscription_plan if user_subscription is not None else ""
-        if articles_today.count >= 15 and not user_subscription_plan.real_name == "bronze":
+        allowed_article_count = 5
+        match user_subscription_plan.real_name:
+            case "bronze":
+                allowed_article_count = 15
+            case "silver":
+                allowed_article_count = 20
+            case "gold":
+                allowed_article_count = 30
+            case "writer":
+                allowed_article_count = 100
+            case "developlab":
+                allowed_article_count = 10**10
+            case "":
+                allowed_article_count = 5
+
+        if articles_today.count() >= 15 and not user_subscription_plan.real_name == "bronze":
             
-            if articles_today.count() >= 10 and not (
+            if articles_today.count() >= allowed_article_count and not (
                 request.user.is_superuser
                 or request.user.groups.filter(name="نویسندگان").exists()
             ):
                 return HttpResponseForbidden(
-                    "شما نمی‌توانید بیش از ۱۰ مقاله در روز بنویسید."
+                    f"شما نمی‌توانید بیش از {allowed_article_count} مقاله در روز بنویسید."
                 )
 
-            return response
+        return response
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -95,7 +110,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         )
         
 
-        match user_subscription_plan:
+        match user_subscription_plan.real_name:
             # پلن برنز و نقره فقط تاثیر روی تعداد دارد.
             case "gold":
                 if not articles_today.exists():
