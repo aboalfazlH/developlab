@@ -56,6 +56,21 @@ class Subscription(models.Model):
     def is_active(self):
         return self.end_date >= timezone.now()
 
+    @property
+    def time_remaining(self):
+        now = timezone.now()
+
+        if now >= self.end_date:
+            return "منقضی 🟠"
+
+        remaining = self.end_date - now
+
+        days = remaining.days
+        hours, remainder = divmod(remaining.seconds, 3600)
+        minutes, _ = divmod(remainder, 60)
+
+        return f"{days} روز، {hours} ساعت، {minutes} دقیقه"
+
     class Meta:
         verbose_name = "اشتراک"
         verbose_name_plural = "اشتراک ها"
