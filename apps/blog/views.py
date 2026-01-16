@@ -115,6 +115,13 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
             case "gold":
                 if not articles_today.exists():
                     form.instance.is_pin = True
+            case "writer":
+                if not articles_today.count() >= 3:
+                    form.instance.is_pin = True
+
+            case "developlab":
+                if not articles_today.count() >= 10:
+                    form.instance.is_pin = True
             # TODO:Add other plans
             case "":
                 pass
