@@ -275,7 +275,7 @@ class CommentCreateView(LoginRequiredMixin, View):
         parent_id = request.POST.get("parent_comment")
 
         if not content:
-            messages.error(request, "متن کامنت نباید خالی باشد.")
+            messages.error(request, "متن نظر نباید خالی باشد.")
             return redirect(article.get_absolute_url())
 
         if parent_id:
