@@ -12,9 +12,7 @@
     <form action="" method="post">
         {% csrf_token %}
         <h2 class="text-center mb-4">مطمعنی میخوای {{ article }} رو حذف کنی؟</h2>
-        {% if user.is_staff %}
         <p class="text-center mb-4 text-danger">این عمل قابل جبران نیست</p>
-        {% endif %}
 
         <div class="text-center">
             <button class="btn btn-danger btn-lg" type="submit">بله</button>

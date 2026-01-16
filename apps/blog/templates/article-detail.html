@@ -74,8 +74,8 @@
         <form action="{% url 'blog:article-verify' article.slug %}" 
               method="post" class="d-inline">
             {% csrf_token %}
-            <button type="submit" class="btn btn-secondery btn-sm">
-                تائید مقاله
+            <button type="submit" class="btn btn-secondary btn-sm">
+                تایید مقاله
             </button>
         </form>
         {% endif %}
