@@ -83,7 +83,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
             case "writer":
                 allowed_article_count = 100
             case "developlab":
-                allowed_article_count = 10**10
+                allowed_article_count = 1000
             case "":
                 allowed_article_count = 5
 
