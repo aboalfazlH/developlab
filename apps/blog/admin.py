@@ -169,3 +169,4 @@ class ArticleCommentAdmin(admin.ModelAdmin):
             obj.pin()
         else:
             super().save_model(request, obj, form, change)
+

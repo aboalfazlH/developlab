@@ -101,7 +101,6 @@ class CustomUser(AbstractUser):
     public_phone_number = models.EmailField(
         verbose_name="شماره تلفن عمومی", blank=True, null=True
     )
-
     # Meta
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ("phone_number", "username")
@@ -158,3 +157,7 @@ class CustomUser(AbstractUser):
         """Str for user model"""
         full_name = self.get_full_name().strip()
         return full_name if full_name else self.username
+
+class BusinessAccount(CustomUser):
+    business_name = models.CharField(max_length=110,verbose_name="نام شرکت")
+    business_owners = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name="owners")

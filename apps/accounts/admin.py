@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, ProfileLink
+from .models import CustomUser, ProfileLink, BusinessAccount
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .actions import actions as user_actions
 from apps.core.admin_site import admin_site
@@ -131,6 +131,15 @@ class ProfileLinkAdmin(admin.ModelAdmin):
     autocomplete_fields = ('user','link_type')
     search_fields = ('link_name','link_url','link_type__name')
 
+    def log_addition(self, request, obj, message):
+        pass
+    def log_change(self, request, obj, message):
+        pass
+    def log_deletion(self, request, obj, object_repr):
+        pass
+
+@admin.register(BusinessAccount)
+class BusinessAccountAdmin(CustomUserAdmin):
     def log_addition(self, request, obj, message):
         pass
     def log_change(self, request, obj, message):
