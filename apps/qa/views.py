@@ -69,7 +69,7 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
             return self.form_invalid(form)
         return super().form_valid(form)
 
-    # TODO: if user has subscribe can ask 100 question and 1 question in month pin
+    
 
 
 class QuestionUpdateView(UpdateView):
